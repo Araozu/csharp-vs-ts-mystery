@@ -54,6 +54,10 @@ console.log("Hello, TS");
 }
 ```
 
+
+```mystery
+
+```
 ### 2b. Entry points & top-level await
 
 ```csharp
@@ -71,6 +75,10 @@ const body = await res.text();
 console.log(body.length);
 ```
 
+
+```mystery
+
+```
 - `Nullable enable` ≈ `"strict": true`. Turn both on for new projects.
 - `ImplicitUsings` ≈ TS auto-imports — both reduce boilerplate, both can confuse newcomers about where names come from.
 - TS ESM imports need explicit `.js` extensions (`./point.js`) even though source is `.ts` — C# `using` needs no file extension at all.

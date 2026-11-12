@@ -39,6 +39,10 @@ type Ctor<T> = new (...args: never[]) => T;
 function isInt(v: unknown, tag: string): boolean { return tag === "int"; }
 ```
 
+
+```mystery
+
+```
 ### Constraints + defaults + helpers
 
 ```csharp
@@ -55,5 +59,9 @@ function wrap<T = string>(v?: T): T[] { return v == null ? [] : [v]; };
 type Partial<T>, Pick<T, K>, Omit<T, K>, ReturnType<F>, Awaited<T>
 ```
 
+
+```mystery
+
+```
 - `where T : class, new()` ≈ `<T extends object>` + constructor param.
 - Biggest gap: C# reified vs TS erased. Serialization, DI, and validation need explicit runtime values in TS.

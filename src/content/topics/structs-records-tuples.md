@@ -38,6 +38,10 @@ const [code, msg] = t;
 type Rec = Record<string, Person>; // dict with fixed value type
 ```
 
+
+```mystery
+
+```
 - C# `struct` = value type (copied). TS objects are always references — copy explicitly with spread.
 - C# `record` has value equality. TS has none — compare field-by-field or with a helper.
 - Don’t confuse C# `record` with TS `Record<K,V>` (typed dictionary).
@@ -53,4 +57,9 @@ public readonly struct ImmutablePt
 const pt = { x: 1, y: 2 } as const; // deeply literal + readonly
 Object.freeze(pt); // runtime freeze (shallow)
 type DeepFrozen<T> = { readonly [K in keyof T]: DeepFrozen<T[K]> };
+```
+
+
+```mystery
+
 ```

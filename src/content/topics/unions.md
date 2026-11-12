@@ -40,5 +40,9 @@ type Person = Named & Aged;
 type Keys = keyof Person; // "name" | "age"
 ```
 
+
+```mystery
+
+```
 - Biggest modeling gap. In TS reach for unions of literals; in C# reach for `abstract record` hierarchies.
 - TS `|` ≈ C# inheritance for “one of”; TS `&` ≈ multiple interfaces for “both of”.

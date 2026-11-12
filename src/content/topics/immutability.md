@@ -31,5 +31,9 @@ type Frozen<T> = { readonly [K in keyof T]: T[K] };
 type DeepRO<T> = { readonly [K in keyof T]: DeepRO<T[K]> };
 ```
 
+
+```mystery
+
+```
 - Both favor copy-on-write: C# `with`, TS object/array spread.
 - TS `readonly` is shallow + compile-time only — use `Object.freeze` for runtime.

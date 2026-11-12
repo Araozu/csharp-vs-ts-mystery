@@ -39,6 +39,10 @@ const [a, b] = await Promise.all([fetchText(u1, signal), fetchText(u2, signal)])
 // first-wins: Promise.race / Promise.any
 ```
 
+
+```mystery
+
+```
 | C# | TS |
 | --- | --- |
 | `Task<T>` | `Promise<T>` |
@@ -69,6 +73,10 @@ setTimeout(() => ctrl.abort(), 5000);
 await fetchText(url, ctrl.signal); // throws AbortError
 ```
 
+
+```mystery
+
+```
 ### Async streams
 
 ```csharp
@@ -87,6 +95,10 @@ async function* stream(): AsyncGenerator<number> {
 }
 ```
 
+
+```mystery
+
+```
 - Both use `async/await`, but C# continuations run on the thread pool; TS runs on the event-loop microtask queue.
 - Don’t block: C# `.Result/.Wait()` can deadlock; TS `await` never blocks the thread.
 - Threads vs event loop: CPU-bound work needs threads in both — C# has them by default, TS needs `Worker` threads or offload.

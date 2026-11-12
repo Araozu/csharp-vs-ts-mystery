@@ -36,6 +36,10 @@ let c = String(x);         // runtime conversion
 let d = typeof x === "string" ? x : "fallback"; // safe
 ```
 
+
+```mystery
+
+```
 - `object` ≈ `object`, `dynamic` ≈ `any`, but TS `unknown` (safe any) has no direct C# equivalent — prefer it over `any`.
 - C# casts can throw at runtime. TS `as` does nothing at runtime — it only tells the compiler what to assume. Validate external data with Zod/Valibot instead.
 - TS `satisfies` checks shape without widening: `const c = {…} satisfies Config` ≈ C# object initializer with type checking.

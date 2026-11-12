@@ -43,6 +43,10 @@ let v = count ?? 0;
 let has = count != null;
 ```
 
+
+```mystery
+
+```
 ### 5a. Optional members + null-forgiving
 
 ```csharp
@@ -70,6 +74,10 @@ let r = obj?.method?.();
 let el = arr?.[0];
 ```
 
+
+```mystery
+
+```
 - `string?` (C#) ≈ `string | null` (TS). TS object properties/params usually need `| undefined` too (`nick?: string`).
 - `?. ?? ??= !` exist in both. TS `== null` checks both null and undefined — the idiomatic “missing” check.
 - Prefer `??` over `||` in TS: `||` also falls through on `0/""`/`false`, `??` only on null/undefined.

@@ -33,6 +33,10 @@ const sameObj = p1 === p2; // false! (reference)
 // NaN gotcha: NaN !== NaN → use Number.isNaN
 ```
 
+
+```mystery
+
+```
 - C# `==` can be overloaded per type. JS/TS `===` is never overloaded: primitives by value, objects by reference.
 - Always `===/!==` in TS. In C# follow each type’s semantics (`record` = value, `class` = reference unless overridden).
 
@@ -49,4 +53,9 @@ Span<int> s = stackalloc int[3] { 1, 2, 3 };
 // TypedArrays / ArrayBuffer for zero-copy binary:
 const buf = new Uint8Array([1, 2, 3]);
 const view = buf.subarray(0, 2); // no copy (like Span)
+```
+
+
+```mystery
+
 ```

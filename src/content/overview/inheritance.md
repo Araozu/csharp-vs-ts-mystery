@@ -31,5 +31,9 @@ const a: Animal = new Dog();
 console.log(a.speak()); // woof
 ```
 
+
+```mystery
+
+```
 - `abstract → abstract`, `virtual → plain`, `override → override`, `sealed →` no keyword (don’t extend / lint rule).
 - Both: single class inheritance + multiple interfaces. TS adds mixins via intersection + helper functions.

@@ -31,6 +31,10 @@ const tags = ["a"];
 tags.push("b"); // allowed! array contents mutable
 ```
 
+
+```mystery
+
+```
 - `var` (C#) = type-inferred but fixed. `let`/`const` (TS) = same, plus binding mutability.
 - C# `const` = compile-time constant. TS `const` = no reassignment. C# `readonly` field ≈ TS `readonly` property.
 - TS `as const` gives literal narrowing (`"C#"` instead of `string`) — closest to C# `const string` semantics for literals.
@@ -58,4 +62,9 @@ if (true) {
   let scoped = 1;
 }
 // scoped not visible here
+```
+
+
+```mystery
+
 ```

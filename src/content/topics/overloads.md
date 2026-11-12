@@ -30,5 +30,9 @@ function sum(...nums: number[]): number {
 sum(1, 2, 3); sum(...[1, 2]);
 ```
 
+
+```mystery
+
+```
 - C# resolves overloads by arity/types at compile time. TS overloads are compile-time only — one runtime implementation handles all.
 - `params int[]` ≈ `...nums: number[]`. Spread `...` works at call sites and in literals in TS.

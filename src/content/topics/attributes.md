@@ -44,4 +44,8 @@ export class UsersController { }
 // prefer Zod/Valibot over decorator magic for validation
 ```
 
+
+```mystery
+
+```
 - C# attributes + reflection are runtime-first (ASP.NET, serializers). TS decorators are syntax sugar — runtime types need explicit libraries.

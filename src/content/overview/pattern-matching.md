@@ -41,6 +41,10 @@ if (isCircle(shape)) console.log(shape.r);
 function assertNever(x: never): never { throw new Error("unhandled"); }
 ```
 
+
+```mystery
+
+```
 - C# patterns match on runtime type. TS narrows via discriminant props (`kind`), `typeof`, `in`, and guard functions.
 - Exhaustiveness: C# warns on non-exhaustive enum switches; TS checks via `never` in the default branch.
 
@@ -62,4 +66,9 @@ const { name, age } = person;
 const { name: display = "n/a", ...rest } = person;
 const [first, ...others] = [1, 2, 3];
 const [a = 0] = []; // defaults
+```
+
+
+```mystery
+
 ```

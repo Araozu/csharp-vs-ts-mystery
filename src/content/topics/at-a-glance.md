@@ -37,6 +37,10 @@ const a: UserA = { name: "Ada" };
 const b: UserB = a; // OK — structure matches
 ```
 
+
+```mystery
+
+```
 - C# asks *“what did you declare?”* TS asks *“what shape do you have?”*
 - C# generics survive to runtime (`typeof(T)`, serializers). TS generics do not — pass a value (schema, constructor, tag) if runtime needs it.
 - Both have `async/await`, but C# schedules on threads; TS schedules on the event-loop microtask queue.

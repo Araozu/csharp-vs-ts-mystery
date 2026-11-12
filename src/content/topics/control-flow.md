@@ -49,5 +49,9 @@ for (const u of users) { /* ... */ } // like foreach
 while (more) { /* ... */ }
 ```
 
+
+```mystery
+
+```
 - C# `foreach` = TS `for...of`. TS `for...in` iterates keys — almost never what you want for arrays.
 - C# switch expressions return values exhaustively. TS switch is a statement — use ternary chains or lookup maps for expression style.

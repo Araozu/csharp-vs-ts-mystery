@@ -38,6 +38,10 @@ try {
 type Result<T> = { ok: true; value: T } | { ok: false; error: string };
 ```
 
+
+```mystery
+
+```
 ### Custom errors
 
 ```csharp
@@ -55,5 +59,9 @@ throw new NotFoundError("1");
 // instanceof works if prototype chain intact (extends Error is fine in ES2022+)
 ```
 
+
+```mystery
+
+```
 - C# catches by type + `when` guards. TS has one catch — discriminate with `instanceof`.
 - No checked exceptions in either (unlike Java). Document expected failures in XML docs / JSDoc or return `Result`.

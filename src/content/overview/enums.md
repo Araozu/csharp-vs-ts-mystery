@@ -29,6 +29,10 @@ type Perm = typeof PERMS[keyof typeof PERMS];
 const p2 = PERMS.Read | PERMS.Write; // number flag math
 ```
 
+
+```mystery
+
+```
 - Prefer TS string-union literals over `enum` — they erase cleanly, autocomplete, and narrow in switches.
 - C# enums are ints with `ToString/Parse`. TS numeric enums allow reverse mapping (`Role[0]`) — confusing, avoid.
 - `[Flags]` ≈ manual bitmask with `as const` object + numeric union.

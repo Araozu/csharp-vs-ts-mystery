@@ -38,6 +38,10 @@ class DbUser implements User {
 }
 ```
 
+
+```mystery
+
+```
 - TS interfaces are structural + erasable. C# interfaces are nominal + enforced at runtime.
 - TS `type` expresses unions/intersections/literals — C# needs enums, inheritance, or pattern matching.
 - Excess property checks: TS object literals error on unknown props (`{id, name, extra}`), but non-literals don’t — a common surprise.

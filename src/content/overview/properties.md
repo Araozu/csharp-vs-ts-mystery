@@ -33,6 +33,10 @@ export class Counter {
 const c = Object.assign(new Counter(), {});
 ```
 
+
+```mystery
+
+```
 - C# properties are first-class (`get/set/init`). TS uses `get/set` accessors or plain fields.
 - C# `init` ≈ TS `readonly` assigned in constructor.
 - JSON serialization: C# honors getters/setters via attributes; TS accessors are lost in `JSON.stringify` unless backed by data fields.

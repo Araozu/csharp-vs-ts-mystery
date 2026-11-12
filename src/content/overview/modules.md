@@ -32,6 +32,10 @@ import { Point } from "./geometry/point.js";
 class Helper {}
 ```
 
+
+```mystery
+
+```
 - C# organizes by namespace + assembly. TS organizes by file + explicit `import/export`.
 - TS needs `.js` in relative ESM imports under `NodeNext`. C# `using` never mentions files.
 - TS `namespace` exists but is legacy — use ES modules + barrels.

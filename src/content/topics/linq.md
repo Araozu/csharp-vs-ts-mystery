@@ -39,6 +39,10 @@ const dict = Object.fromEntries(users.map((u) => [u.id, u]));
 const dictMap = new Map(users.map((u) => [u.id, u] as const));
 ```
 
+
+```mystery
+
+```
 | C# LINQ | TS equivalent |
 | --- | --- |
 | `Where` | `filter` |
@@ -70,5 +74,9 @@ function* lazyFilter<T>(xs: Iterable<T>, f: (t: T) => boolean): Generator<T> {
 }
 ```
 
+
+```mystery
+
+```
 - TS `sort` mutates; use `toSorted/toReversed/toSpliced` for LINQ-like non-mutating behavior.
 - `Object.groupBy` is new — check target/lib before using, otherwise reduce into a `Map`.

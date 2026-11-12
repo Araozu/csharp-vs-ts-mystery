@@ -35,6 +35,10 @@ bus.emit("renamed", "new-name");
 target.addEventListener("click", (e) => console.log(e));
 ```
 
+
+```mystery
+
+```
 - `Func<A,R>` ≈ `(a: A) => R`, `Action<T>` ≈ `(t: T) => void`.
 - C# events are language-level with `+=/-=`. TS uses `addEventListener` / `EventEmitter.on` + `removeListener`.
 - Multicast: C# delegates combine (`+`); TS typically holds an array of callbacks.

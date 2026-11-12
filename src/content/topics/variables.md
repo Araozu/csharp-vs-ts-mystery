@@ -49,6 +49,10 @@ tags.push("b"); // allowed!
 const frozen = ["a"] as const; // readonly ["a"]
 ```
 
+
+```mystery
+
+```
 - C# `var` = inferred but fixed type. TS `let`/`const` = same, plus binding mutability.
 - C# `const` = embedded at compile time. TS `const` = no reassignment. Don’t map them 1:1.
 - C# `readonly` field ≈ TS `readonly` property (assign once, then frozen).
@@ -78,6 +82,10 @@ const w2 = null; // type: null (narrow, const)
 function f(v = "hi") { /* v: string */ }
 ```
 
+
+```mystery
+
+```
 - Always annotate when initializing with `null`: C# `string? x = null`, TS `let x: string | null = null`.
 - TS `let` widens literals (`"hi"` → `string`); `const` preserves them. Use `as const` when you need the literal.
 
@@ -111,6 +119,10 @@ let a = 1;
 console.log(a); // 1
 ```
 
+
+```mystery
+
+```
 ## 4. The closure-in-a-loop trap
 
 ```csharp
@@ -136,6 +148,10 @@ bad.forEach((f) => f()); // 3 3 3 — classic bug
 // fix: use let, or capture: const copy = i;
 ```
 
+
+```mystery
+
+```
 - Rule: always use `let/const` in TS loops, fresh locals in C# `for` when capturing into lambdas/tasks.
 
 ## 5. Definite assignment
@@ -160,4 +176,9 @@ console.log(s); // OK with strict (control-flow proves it)
 // console.log(t!); // error under strict — use ! or assign
 // class fields: constructor must assign or use definite assignment:
 // name!: string;
+```
+
+
+```mystery
+
 ```

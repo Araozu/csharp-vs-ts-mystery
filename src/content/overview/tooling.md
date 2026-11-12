@@ -34,6 +34,10 @@ const user = User.parse(JSON.parse(json)); // throws if bad
 const back = JSON.stringify(user);
 ```
 
+
+```mystery
+
+```
 ### HTTP APIs
 
 ```csharp
@@ -52,6 +56,10 @@ app.get("/users/:id", (c) => c.json({ id: c.req.param("id") }));
 export default app;
 ```
 
+
+```mystery
+
+```
 ### File I/O + DI + testing
 
 ```csharp
@@ -77,5 +85,9 @@ const t = await readFile("a.txt", "utf8");
 test("creates", () => { expect(1).toBe(1); });
 ```
 
+
+```mystery
+
+```
 - C# serialization is typed end-to-end. TS `JSON.parse` is `any` — validate at the boundary.
 - C# DI is built into ASP.NET; TS relies on constructor injection by hand or minimal helpers.

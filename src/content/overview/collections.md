@@ -49,6 +49,10 @@ const slice = nums.slice(1, 3);
 const copy = [...nums];
 ```
 
+
+```mystery
+
+```
 - C# indexers throw on missing keys; TS `Map.get` returns `undefined`. Handle it.
 - Enable `noUncheckedIndexedAccess` so `arr[0]` is `T | undefined`.
 - TS `Array` doubles as stack+queue. For O(1) queues use a deque lib; C# `Queue/Stack` are purpose-built.

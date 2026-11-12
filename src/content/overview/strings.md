@@ -33,5 +33,9 @@ const dt = new Date("2024-01-02"); // beware TZ parsing!
 // prefer Temporal (polyfill) or date-fns for real work
 ```
 
+
+```mystery
+
+```
 - C# `$""` ≈ TS backticks. C# verbatim `@""` ≈ `String.raw`.
 - Date parsing: C# `DateOnly/TimeOnly/DateTimeOffset` are precise; TS `Date` is famously lossy — use ISO strings + a library.

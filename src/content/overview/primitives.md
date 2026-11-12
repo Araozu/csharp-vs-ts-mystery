@@ -38,6 +38,10 @@ let id: string = crypto.randomUUID();
 let ttlMs = 5 * 60 * 1000; // durations are just numbers
 ```
 
+
+```mystery
+
+```
 - If C# uses `decimal` for money, don’t port to TS `number` naively — use integers-of-cents or a decimal library.
 - TS `number` covers all C# int/float/double. `bigint` covers `long` beyond 2<sup>53</sup> but can’t mix with `number` without conversion.
 - C# `char` vs TS single-char `string`; C# `TimeSpan` vs TS millisecond numbers or `Temporal.Duration`.

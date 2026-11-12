@@ -37,6 +37,10 @@ let factor = 10;
 const scale = (x: number): number => x * factor;
 ```
 
+
+```mystery
+
+```
 ### 7b. Defaults, named args, params
 
 ```csharp
@@ -64,6 +68,10 @@ function sum(...nums: number[]): number {
 sum(1, 2, 3); sum(...[1, 2]);
 ```
 
+
+```mystery
+
+```
 - Arrow `=>` exists in both. C# lambdas need a delegate type (`Func/Action`); TS function types are structural.
 - C# has true named args. TS fakes them with a destructured options object — prefer that once you have >2 params.
 - `this`: C# methods capture per instance. TS arrows capture outer `this`; regular `function` gets dynamic `this` — prefer arrows for callbacks. Use `this: void` param to forbid dynamic this.

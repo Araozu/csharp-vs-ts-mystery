@@ -41,6 +41,10 @@ u.rename("Grace");
 // u.id compile-error but still accessible at runtime!
 ```
 
+
+```mystery
+
+```
 - TS `private` is compile-time only. Use `#id` private fields for runtime privacy.
 - TS parameter properties (`constructor(private x)`) ≈ C# primary constructors `class User(string id)` — similar idea, different syntax.
 - C# field initializers run before constructor body; same in TS. Order matters for `readonly` assignment.
@@ -65,4 +69,9 @@ export class Counter {
   // static blocks (ES2022):
   static { /* runs once */ }
 }
+```
+
+
+```mystery
+
 ```
