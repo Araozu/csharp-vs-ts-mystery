@@ -1,0 +1,61 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("at-a-glance");
+---
+
+<Base title="1. At a glance — C# vs TypeScript" description="1. At a glance: side-by-side C# and TypeScript examples." slug="at-a-glance">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 1. At a glance</small></p>
+    <h1>1. At a glance</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="at-a-glance">
+  
+  <h2>1. At a glance</h2>
+  <table>
+    <thead><tr><th scope="col">Topic</th><th scope="col">C#</th><th scope="col">TypeScript</th></tr></thead>
+    <tbody>
+      <tr><td>Runs on</td><td>.NET CLR (Windows/Linux/macOS, cloud, mobile via MAUI, Unity)</td><td>Any JS runtime (browser, Node, Bun, Deno, workers)</td></tr>
+      <tr><td>Typing</td><td>Nominal, static. Same shape ≠ assignable</td><td>Structural, static (erased). Same shape = assignable</td></tr>
+      <tr><td>Null safety</td><td><code>Nullable enable</code>, <code>T?</code> for refs + <code>Nullable&lt;T&gt;</code> for values</td><td><code>strictNullChecks</code>, <code>| null | undefined</code> unions</td></tr>
+      <tr><td>Inheritance</td><td>Single class + multiple interfaces</td><td>Same, plus mixins + intersection types</td></tr>
+      <tr><td>Generics</td><td>Reified (kept at runtime, reflection works)</td><td>Erased (compile-time only, gone in emitted JS)</td></tr>
+      <tr><td>Concurrency</td><td>Threads, thread-pool, <code>Task</code>, <code>Parallel</code></td><td>Event loop, microtasks, <code>Promise</code>, workers for true threads</td></tr>
+      <tr><td>Errors</td><td>Typed <code>catch (ExType)</code> + filters <code>when</code></td><td>Single <code>catch (unknown)</code>, narrow with <code>instanceof</code></td></tr>
+      <tr><td>Distribution</td><td>NuGet, assemblies, single-file, Native AOT</td><td>npm/jsr, bundlers, <code>tsc</code> emits plain JS</td></tr>
+    </tbody>
+  </table>
+  <h3>Nominal vs structural — the one idea that explains half the differences</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>// Same shape, NOT assignable
+public class UserA &#123; public string Name &#123; get; set; &#125; = ""; &#125;
+public class UserB &#123; public string Name &#123; get; set; &#125; = ""; &#125;
+// UserB b = new UserA(); // error
+// Must implement a shared interface explicitly.</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>// Same shape, assignable
+type UserA = &#123; name: string &#125;;
+type UserB = &#123; name: string &#125;;
+const a: UserA = &#123; name: "Ada" &#125;;
+const b: UserB = a; // OK — structure matches</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>C# asks <em>“what did you declare?”</em> TS asks <em>“what shape do you have?”</em></li>
+    <li>C# generics survive to runtime (<code>typeof(T)</code>, serializers). TS generics do not — pass a value (schema, constructor, tag) if runtime needs it.</li>
+    <li>Both have <code>async/await</code>, but C# schedules on threads; TS schedules on the event-loop microtask queue.</li>
+  </ul>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

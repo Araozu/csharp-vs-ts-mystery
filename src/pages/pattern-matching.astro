@@ -1,0 +1,87 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("pattern-matching");
+---
+
+<Base title="19. Pattern matching & narrowing — C# vs TypeScript" description="19. Pattern matching & narrowing: side-by-side C# and TypeScript examples." slug="pattern-matching">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 19. Pattern matching & narrowing</small></p>
+    <h1>19. Pattern matching &amp; narrowing</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="pattern-matching">
+  
+  <h2>19. Pattern matching &amp; narrowing</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>object shape = new Circle(2);
+double area = shape switch
+&#123;
+  Circle c =&gt; Math.PI * c.R * c.R,
+  Rectangle &#123; W: var w, H: var h &#125; =&gt; w * h,
+  null =&gt; 0,
+  _ =&gt; throw new ArgumentException("unknown")
+&#125;;
+
+if (shape is Circle circle) Console.WriteLine(circle.R);
+
+// list + relational + logical patterns (C# 9+)
+bool ok = score is &gt;= 90 or &lt;= 10;
+if (arr is [1, .., 5]) Console.WriteLine("starts 1 ends 5");</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>type Shape =
+  | &#123; kind: "circle"; r: number &#125;
+  | &#123; kind: "rect"; w: number; h: number &#125;;
+declare const shape: Shape;
+
+const area =
+  shape.kind === "circle" ? Math.PI * shape.r ** 2 :
+  shape.kind === "rect"   ? shape.w * shape.h :
+  (() =&gt; &#123; throw new Error("unknown"); &#125;)();
+
+// guards: typeof / instanceof / in / predicates
+function isCircle(s: Shape): s is Extract&lt;Shape, &#123; kind: "circle" &#125;&gt; &#123;
+  return s.kind === "circle";
+&#125;
+if (isCircle(shape)) console.log(shape.r);
+
+// exhaustiveness via never:
+function assertNever(x: never): never &#123; throw new Error("unhandled"); &#125;</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>C# patterns match on runtime type. TS narrows via discriminant props (<code>kind</code>), <code>typeof</code>, <code>in</code>, and guard functions.</li>
+    <li>Exhaustiveness: C# warns on non-exhaustive enum switches; TS checks via <code>never</code> in the default branch.</li>
+  </ul>
+  <h3>Destructuring</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>var (code, msg) = (200, "ok");
+var person = new Person("Ada", 36);
+var (name, age) = person; // needs Deconstruct
+
+// discard
+var (_, onlyMsg) = (200, "ok");</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>const [code, msg] = [200, "ok"] as const;
+const person = &#123; name: "Ada", age: 36 &#125;;
+const &#123; name, age &#125; = person;
+const &#123; name: display = "n/a", ...rest &#125; = person;
+const [first, ...others] = [1, 2, 3];
+const [a = 0] = []; // defaults</code></pre>
+    </div>
+  </Compare>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

@@ -1,0 +1,61 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("interfaces");
+---
+
+<Base title="9. Interfaces & type aliases — C# vs TypeScript" description="9. Interfaces & type aliases: side-by-side C# and TypeScript examples." slug="interfaces">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 9. Interfaces & type aliases</small></p>
+    <h1>9. Interfaces &amp; type aliases</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="interfaces">
+  
+  <h2>9. Interfaces &amp; type aliases</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>public interface HasId &#123; string Id &#123; get; &#125; &#125;
+public interface User : HasId &#123; string Name &#123; get; set; &#125; &#125;
+
+public class DbUser : User
+&#123;
+  public required string Id &#123; get; init; &#125;
+  public required string Name &#123; get; set; &#125;
+&#125;
+
+// alias via using
+using UserId = System.String;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>interface HasId &#123; readonly id: string; &#125;
+interface User extends HasId &#123; name: string; &#125;
+const u: User = &#123; id: "1", name: "Ada" &#125;; // structural!
+
+type UserId = string;
+type Admin = User &amp; &#123; role: "admin" &#125;;
+type Status = "active" | "archived";
+type MaybeUser = User | null;
+
+// implements is optional:
+class DbUser implements User &#123;
+  constructor(readonly id: string, public name: string) &#123;&#125;
+&#125;</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>TS interfaces are structural + erasable. C# interfaces are nominal + enforced at runtime.</li>
+    <li>TS <code>type</code> expresses unions/intersections/literals — C# needs enums, inheritance, or pattern matching.</li>
+    <li>Excess property checks: TS object literals error on unknown props (<code>&#123;id, name, extra&#125;</code>), but non-literals don’t — a common surprise.</li>
+  </ul>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

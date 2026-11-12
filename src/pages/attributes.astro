@@ -1,0 +1,65 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("attributes");
+---
+
+<Base title="28. Attributes, decorators, reflection — C# vs TypeScript" description="28. Attributes, decorators, reflection: side-by-side C# and TypeScript examples." slug="attributes">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 28. Attributes, decorators, reflection</small></p>
+    <h1>28. Attributes, decorators, reflection</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="attributes">
+  
+  <h2>28. Attributes, decorators, reflection</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>[Obsolete("Use NewMethod instead")]
+public void OldMethod() &#123; /* ... */ &#125;
+
+[AttributeUsage(AttributeTargets.Class)]
+public class RouteAttribute(string path) : Attribute
+&#123; public string Path =&gt; path; &#125;
+
+[Route("/users")]
+public class UsersController &#123; &#125;
+
+var attr = typeof(UsersController)
+  .GetCustomAttributes(typeof(RouteAttribute), false)
+  .Cast&lt;RouteAttribute&gt;().First();
+
+// source generators: compile-time codegen, AOT-safe</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>/** @deprecated Use newMethod instead. */
+export function oldMethod() &#123;&#125;
+
+// TC39 decorators (TS 5+)
+function Route(path: string) &#123;
+  return function (target: Function) &#123;
+    Reflect.defineMetadata?.("route", path, target);
+  &#125;;
+&#125;
+@Route("/users")
+export class UsersController &#123; &#125;
+
+// reflection ≈ manual metadata + schemas
+// runtime type info is NOT automatic like C#
+// prefer Zod/Valibot over decorator magic for validation</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>C# attributes + reflection are runtime-first (ASP.NET, serializers). TS decorators are syntax sugar — runtime types need explicit libraries.</li>
+  </ul>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

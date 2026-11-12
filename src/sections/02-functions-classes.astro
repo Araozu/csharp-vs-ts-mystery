@@ -1,0 +1,300 @@
+---
+import Compare from "../components/Compare.astro";
+---
+
+<section id="inference-casting">
+  <h2>6. Inference, any / object / unknown, casting</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>var s = "hello"; // string, fixed
+// s = 5; // error
+
+object o = "abc";    // boxes anything
+dynamic dyn = "hello"; // runtime binding
+dyn = 42;              // allowed, checked at runtime
+
+object x = "abc";
+string a = (string)x;    // throws if wrong
+string? b = x as string; // null if wrong
+bool isStr = x is string;
+if (x is string str) &#123; Console.WriteLine(str.Length); &#125;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>let s = "hello"; // string, fixed
+// s = 5; // error
+
+let o: object = &#123;&#125;;
+let anything: any = "hello";  // escape hatch
+anything = 42;
+let safe: unknown = "hello"; // must narrow first
+// safe.toUpperCase(); // error
+if (typeof safe === "string") safe.toUpperCase(); // OK
+
+let x: unknown = "abc";
+let a = x as string;       // compile-time only, no check!
+let b = &lt;string&gt;x;         // angle form (avoid in .tsx)
+let c = String(x);         // runtime conversion
+let d = typeof x === "string" ? x : "fallback"; // safe</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li><code>object</code> ≈ <code>object</code>, <code>dynamic</code> ≈ <code>any</code>, but TS <code>unknown</code> (safe any) has no direct C# equivalent — prefer it over <code>any</code>.</li>
+    <li>C# casts can throw at runtime. TS <code>as</code> does nothing at runtime — it only tells the compiler what to assume. Validate external data with Zod/Valibot instead.</li>
+    <li>TS <code>satisfies</code> checks shape without widening: <code>const c = &#123;…&#125; satisfies Config</code> ≈ C# object initializer with type checking.</li>
+  </ul>
+</section>
+
+<hr />
+
+<section id="functions">
+  <h2>7. Functions</h2>
+  <h3>7a. Declarations, arrows, function types</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>int Add(int a, int b) =&gt; a + b;
+
+int Fib(int n)
+&#123;
+  if (n &lt;= 1) return n;
+  return Fib(n - 1) + Fib(n - 2);
+&#125;
+
+Func&lt;int, int, int&gt; add = (a, b) =&gt; a + b;
+Func&lt;int&gt; getRandom = () =&gt; Random.Shared.Next();
+
+// closures capture variables (by reference)
+int factor = 10;
+Func&lt;int, int&gt; scale = x =&gt; x * factor;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>function add(a: number, b: number): number &#123; return a + b; &#125;
+const add2 = (a: number, b: number): number =&gt; a + b;
+
+const fib = (n: number): number =&gt;
+  n &lt;= 1 ? n : fib(n - 1) + fib(n - 2);
+
+type Add = (a: number, b: number) =&gt; number;
+const add3: Add = (a, b) =&gt; a + b;
+
+// closures capture by reference too
+let factor = 10;
+const scale = (x: number): number =&gt; x * factor;</code></pre>
+    </div>
+  </Compare>
+  <h3>7b. Defaults, named args, params</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>void Greet(string name = "world", bool loud = false)
+&#123; /* ... */ &#125;
+Greet(loud: true); // true named args
+Greet("Ada");
+
+int Sum(params int[] nums) =&gt; nums.Sum();
+Sum(1, 2, 3);</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>function greet(name = "world", loud = false) &#123; /* ... */ &#125;
+greet(undefined, true); // placeholder for "named"
+greet("Ada");
+
+// idiomatic named args: options object + destructuring
+function greetOpts(&#123; name = "world", loud = false &#125;: &#123; name?: string; loud?: boolean &#125;) &#123;&#125;
+greetOpts(&#123; loud: true &#125;);
+
+function sum(...nums: number[]): number &#123;
+  return nums.reduce((a, b) =&gt; a + b, 0);
+&#125;
+sum(1, 2, 3); sum(...[1, 2]);</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>Arrow <code>=&gt;</code> exists in both. C# lambdas need a delegate type (<code>Func/Action</code>); TS function types are structural.</li>
+    <li>C# has true named args. TS fakes them with a destructured options object — prefer that once you have &gt;2 params.</li>
+    <li><code>this</code>: C# methods capture per instance. TS arrows capture outer <code>this</code>; regular <code>function</code> gets dynamic <code>this</code> — prefer arrows for callbacks. Use <code>this: void</code> param to forbid dynamic this.</li>
+  </ul>
+</section>
+
+<hr />
+
+<section id="classes">
+  <h2>8. Classes &amp; constructors</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>public class User
+&#123;
+  private readonly string _id;
+  public User(string id, string name)
+  &#123; _id = id; Name = name; &#125;
+
+  public string Name &#123; get; set; &#125;
+  public string Id =&gt; _id;
+  public void Rename(string next) =&gt; Name = next;
+
+  public static User Anonymous() =&gt; new("0", "anon");
+&#125;
+var u = new User("1", "Ada");
+u.Rename("Grace");</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>export class User &#123;
+  constructor(
+    private readonly id: string,
+    public name: string,
+  ) &#123;&#125; // parameter properties
+
+  get upperName(): string &#123; return this.name.toUpperCase(); &#125;
+  rename(next: string): void &#123; this.name = next; &#125;
+  static anonymous(): User &#123; return new User("0", "anon"); &#125;
+&#125;
+const u = new User("1", "Ada");
+u.rename("Grace");
+// u.id compile-error but still accessible at runtime!</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>TS <code>private</code> is compile-time only. Use <code>#id</code> private fields for runtime privacy.</li>
+    <li>TS parameter properties (<code>constructor(private x)</code>) ≈ C# primary constructors <code>class User(string id)</code> — similar idea, different syntax.</li>
+    <li>C# field initializers run before constructor body; same in TS. Order matters for <code>readonly</code> assignment.</li>
+  </ul>
+  <h3>Static + factory deep dive</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>public class Counter
+&#123;
+  private static int _next;
+  public static int Created =&gt; _next;
+  public int Ordinal &#123; get; &#125; = ++_next;
+  static Counter() &#123; /* runs once */ &#125;
+&#125;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>export class Counter &#123;
+  private static next = 0;
+  static get created(): number &#123; return Counter.next; &#125;
+  readonly ordinal: number = ++Counter.next;
+  // static blocks (ES2022):
+  static &#123; /* runs once */ &#125;
+&#125;</code></pre>
+    </div>
+  </Compare>
+</section>
+
+<hr />
+
+<section id="interfaces">
+  <h2>9. Interfaces &amp; type aliases</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>public interface HasId &#123; string Id &#123; get; &#125; &#125;
+public interface User : HasId &#123; string Name &#123; get; set; &#125; &#125;
+
+public class DbUser : User
+&#123;
+  public required string Id &#123; get; init; &#125;
+  public required string Name &#123; get; set; &#125;
+&#125;
+
+// alias via using
+using UserId = System.String;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>interface HasId &#123; readonly id: string; &#125;
+interface User extends HasId &#123; name: string; &#125;
+const u: User = &#123; id: "1", name: "Ada" &#125;; // structural!
+
+type UserId = string;
+type Admin = User &amp; &#123; role: "admin" &#125;;
+type Status = "active" | "archived";
+type MaybeUser = User | null;
+
+// implements is optional:
+class DbUser implements User &#123;
+  constructor(readonly id: string, public name: string) &#123;&#125;
+&#125;</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>TS interfaces are structural + erasable. C# interfaces are nominal + enforced at runtime.</li>
+    <li>TS <code>type</code> expresses unions/intersections/literals — C# needs enums, inheritance, or pattern matching.</li>
+    <li>Excess property checks: TS object literals error on unknown props (<code>&#123;id, name, extra&#125;</code>), but non-literals don’t — a common surprise.</li>
+  </ul>
+</section>
+
+<hr />
+
+<section id="inheritance">
+  <h2>10. Inheritance &amp; polymorphism</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>public abstract class Animal
+&#123;
+  public abstract string Speak();
+  public virtual string Move() =&gt; "walks";
+&#125;
+public sealed class Dog : Animal
+&#123;
+  public override string Speak() =&gt; "woof";
+  public override string Move() =&gt; "runs";
+&#125;
+Animal a = new Dog();
+Console.WriteLine(a.Speak()); // woof</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>export abstract class Animal &#123;
+  abstract speak(): string;
+  move(): string &#123; return "walks"; &#125;
+&#125;
+export class Dog extends Animal &#123;
+  override speak(): string &#123; return "woof"; &#125;
+  override move(): string &#123; return "runs"; &#125;
+&#125;
+const a: Animal = new Dog();
+console.log(a.speak()); // woof</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li><code>abstract → abstract</code>, <code>virtual → plain</code>, <code>override → override</code>, <code>sealed →</code> no keyword (don’t extend / lint rule).</li>
+    <li>Both: single class inheritance + multiple interfaces. TS adds mixins via intersection + helper functions.</li>
+  </ul>
+</section>
+
+<hr />
+
+<section id="properties">
+  <h2>11. Properties vs accessors</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>public class Counter
+&#123;
+  public int Count &#123; get; private set; &#125;
+  public string Name &#123; get; init; &#125; = "n/a";
+  private int _backing;
+  public int Doubled
+  &#123;
+    get =&gt; _backing * 2;
+    set =&gt; _backing = value / 2;
+  &#125;
+  public void Inc() =&gt; Count++;
+&#125;
+var c = new Counter &#123; Name = "clicks" &#125;;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>export class Counter &#123;
+  private _count = 0;
+  readonly name: string = "n/a";
+  get count(): number &#123; return this._count; &#125;
+  private _backing = 0;
+  get doubled(): number &#123; return this._backing * 2; &#125;
+  set doubled(v: number) &#123; this._backing = v / 2; &#125;
+  inc(): void &#123; this._count++; &#125;
+&#125;
+// object-literal init equivalent:
+const c = Object.assign(new Counter(), &#123;&#125;);</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>C# properties are first-class (<code>get/set/init</code>). TS uses <code>get/set</code> accessors or plain fields.</li>
+    <li>C# <code>init</code> ≈ TS <code>readonly</code> assigned in constructor.</li>
+    <li>JSON serialization: C# honors getters/setters via attributes; TS accessors are lost in <code>JSON.stringify</code> unless backed by data fields.</li>
+  </ul>
+</section>

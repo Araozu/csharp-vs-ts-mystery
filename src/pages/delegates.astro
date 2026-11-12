@@ -1,0 +1,58 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("delegates");
+---
+
+<Base title="24. Delegates, lambdas, events — C# vs TypeScript" description="24. Delegates, lambdas, events: side-by-side C# and TypeScript examples." slug="delegates">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 24. Delegates, lambdas, events</small></p>
+    <h1>24. Delegates, lambdas, events</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="delegates">
+  
+  <h2>24. Delegates, lambdas, events</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>public delegate int Compare(string a, string b);
+Func&lt;int, int, int&gt; add = (a, b) =&gt; a + b;
+Action&lt;string&gt; log = Console.WriteLine;
+Predicate&lt;string&gt; isLong = s =&gt; s.Length &gt; 3;
+
+public event EventHandler&lt;string&gt;? Renamed;
+Renamed?.Invoke(this, "new-name");
+// subscribe: obj.Renamed += Handler; //-= to remove</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>type Compare = (a: string, b: string) =&gt; number;
+const add: (a: number, b: number) =&gt; number = (a, b) =&gt; a + b;
+const log: (msg: string) =&gt; void = console.log;
+const isLong = (s: string): boolean =&gt; s.length &gt; 3;
+
+// events: EventTarget / EventEmitter, no keyword
+import &#123; EventEmitter &#125; from "node:events";
+const bus = new EventEmitter();
+bus.on("renamed", (name: string) =&gt; console.log(name));
+bus.emit("renamed", "new-name");
+
+// DOM:
+target.addEventListener("click", (e) =&gt; console.log(e));</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li><code>Func&lt;A,R&gt;</code> ≈ <code>(a: A) =&gt; R</code>, <code>Action&lt;T&gt;</code> ≈ <code>(t: T) =&gt; void</code>.</li>
+    <li>C# events are language-level with <code>+=/-=</code>. TS uses <code>addEventListener</code> / <code>EventEmitter.on</code> + <code>removeListener</code>.</li>
+    <li>Multicast: C# delegates combine (<code>+</code>); TS typically holds an array of callbacks.</li>
+  </ul>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

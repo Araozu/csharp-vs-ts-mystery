@@ -1,0 +1,191 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors, NAV } from "../lib/nav";
+const { prev, next } = neighbors("variables");
+---
+
+<Base title="Variables & mutability — C# vs TypeScript" description="Full page: declaring variables, inference, const vs readonly, scoping, and closure gotchas in C# and TypeScript." slug="variables">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / Variables &amp; mutability</small></p>
+    <h1>Variables &amp; mutability</h1>
+    <p>One full page for one idea: how bindings work, what’s mutable, and where scoping bites you.</p>
+  </div>
+
+  <section>
+    <h2>1. Declaration cheat sheet</h2>
+    <table>
+      <thead><tr><th>Need</th><th>C#</th><th>TypeScript</th></tr></thead>
+      <tbody>
+        <tr><td>Inferred mutable</td><td><code>var name = "Ada";</code></td><td><code>let name = "Ada";</code></td></tr>
+        <tr><td>Explicit type</td><td><code>string name = "Ada";</code></td><td><code>let name: string = "Ada";</code></td></tr>
+        <tr><td>Never reassign (binding)</td><td><code>const</code> (compile-time) / <code>readonly</code> field</td><td><code>const</code></td></tr>
+        <tr><td>Literal type preserved</td><td><code>const string Lang = "C#";</code></td><td><code>const lang = "C#" as const;</code></td></tr>
+        <tr><td>Deeply immutable</td><td><code>record + init + IReadOnlyList</code></td><td><code>as const + readonly + Object.freeze</code></td></tr>
+      </tbody>
+    </table>
+    <Compare>
+      <div slot="left">
+        <pre><code>var name = "Ada";      // inferred string, still static
+string explicitName = "Grace";
+const string Lang = "C#";   // compile-time const
+const int Max = 100;        // must be computable at compile time
+
+class C &#123;
+  readonly string _id = Guid.NewGuid().ToString(); // runtime readonly
+  const string Kind = "user"; // implicitly static
+&#125;
+
+int count = 0;
+count = 1;
+// Lang = "TS"; // error</code></pre>
+      </div>
+      <div slot="right">
+        <pre><code>let name = "Ada";          // inferred string
+let explicitName: string = "Grace";
+const lang = "C#";         // literal narrowed to "C#"? no — string, unless as const
+const langLit = "C#" as const; // type: "C#"
+const id: string = crypto.randomUUID();
+
+let count = 0;
+count = 1;
+// lang = "TS"; // error: cannot reassign
+
+// const ≠ immutable contents:
+const tags = ["a"];
+tags.push("b"); // allowed!
+const frozen = ["a"] as const; // readonly ["a"]</code></pre>
+      </div>
+    </Compare>
+    <ul>
+      <li>C# <code>var</code> = inferred but fixed type. TS <code>let</code>/<code>const</code> = same, plus binding mutability.</li>
+      <li>C# <code>const</code> = embedded at compile time. TS <code>const</code> = no reassignment. Don’t map them 1:1.</li>
+      <li>C# <code>readonly</code> field ≈ TS <code>readonly</code> property (assign once, then frozen).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. Inference &amp; widening</h2>
+    <Compare>
+      <div slot="left">
+        <pre><code>var s = "hi"; // string
+// s = 5; // error — still static
+var x = (string?)null; // need hint when null
+// var y; // error — must initialize
+
+int n = 5; // int, no widening surprises
+// n = 5.5; // error</code></pre>
+      </div>
+      <div slot="right">
+        <pre><code>let s = "hi"; // string
+// s = 5; // error
+let x = null; // any? no — with strict: null, widens on assignment unless annotated
+let y; // any (implicit) — avoid; annotate: let y: string | undefined;
+
+let n = 5; // number
+// widening trap:
+let w = null; // type: any under non-strict, null under strict w/ widening
+const w2 = null; // type: null (narrow, const)
+function f(v = "hi") &#123; /* v: string */ &#125;</code></pre>
+      </div>
+    </Compare>
+    <ul>
+      <li>Always annotate when initializing with <code>null</code>: C# <code>string? x = null</code>, TS <code>let x: string | null = null</code>.</li>
+      <li>TS <code>let</code> widens literals (<code>"hi"</code> → <code>string</code>); <code>const</code> preserves them. Use <code>as const</code> when you need the literal.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Scoping</h2>
+    <Compare>
+      <div slot="left">
+        <pre><code>for (int i = 0; i &lt; 3; i++) Console.WriteLine(i);
+// i not visible here — block scoped
+
+if (true) &#123; int t = 1; &#125;
+// t not visible here
+
+// shadowing is an error in same scope, allowed in nested:
+int a = 1;
+&#123; int a2 = 2; &#125;</code></pre>
+      </div>
+      <div slot="right">
+        <pre><code>for (let i = 0; i &lt; 3; i++) console.log(i);
+// i not visible — let/const are block scoped
+
+if (true) &#123; let t = 1; &#125;
+// t not visible here
+
+// var leaks — never use var in TS:
+for (var j = 0; j &lt; 3; j++) &#123;&#125;
+console.log(j); // 3 — leaked!
+
+let a = 1;
+&#123; let a = 2; console.log(a); &#125; // shadowing allowed
+console.log(a); // 1</code></pre>
+      </div>
+    </Compare>
+  </section>
+
+  <section>
+    <h2>4. The closure-in-a-loop trap</h2>
+    <Compare>
+      <div slot="left">
+        <pre><code>// Pre-C# 5, foreach captured the same variable.
+// Modern C#: each iteration gets a fresh variable — safe:
+var actions = new List&lt;Action&gt;();
+foreach (var n in new[] &#123; 1, 2, 3 &#125;) actions.Add(() =&gt; Console.WriteLine(n));
+foreach (var a in actions) a(); // 1 2 3
+
+// for-loop: 'i' is one variable — copy if capturing:
+for (int i = 0; i &lt; 3; i++) &#123; int copy = i; Task.Run(() =&gt; Console.WriteLine(copy)); &#125;</code></pre>
+      </div>
+      <div slot="right">
+        <pre><code>// let = fresh per iteration (safe). var = shared (bug):
+const fns: (() =&gt; void)[] = [];
+for (let n of [1, 2, 3]) fns.push(() =&gt; console.log(n));
+fns.forEach((f) =&gt; f()); // 1 2 3
+
+const bad: (() =&gt; void)[] = [];
+for (var i = 0; i &lt; 3; i++) bad.push(() =&gt; console.log(i));
+bad.forEach((f) =&gt; f()); // 3 3 3 — classic bug
+// fix: use let, or capture: const copy = i;</code></pre>
+      </div>
+    </Compare>
+    <ul>
+      <li>Rule: always use <code>let/const</code> in TS loops, fresh locals in C# <code>for</code> when capturing into lambdas/tasks.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>5. Definite assignment</h2>
+    <Compare>
+      <div slot="left">
+        <pre><code>string s;
+if (DateTime.Now.Second &gt; 30) s = "a";
+else s = "b";
+Console.WriteLine(s); // OK — compiler proves assignment
+
+// string t;
+// Console.WriteLine(t); // error: use of unassigned local</code></pre>
+      </div>
+      <div slot="right">
+        <pre><code>let s: string;
+if (Date.now() % 2 === 0) s = "a";
+else s = "b";
+console.log(s); // OK with strict (control-flow proves it)
+
+// let t: string;
+// console.log(t!); // error under strict — use ! or assign
+// class fields: constructor must assign or use definite assignment:
+// name!: string;</code></pre>
+      </div>
+    </Compare>
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

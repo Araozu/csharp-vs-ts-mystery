@@ -1,0 +1,58 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("inheritance");
+---
+
+<Base title="10. Inheritance & polymorphism — C# vs TypeScript" description="10. Inheritance & polymorphism: side-by-side C# and TypeScript examples." slug="inheritance">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 10. Inheritance & polymorphism</small></p>
+    <h1>10. Inheritance &amp; polymorphism</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="inheritance">
+  
+  <h2>10. Inheritance &amp; polymorphism</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>public abstract class Animal
+&#123;
+  public abstract string Speak();
+  public virtual string Move() =&gt; "walks";
+&#125;
+public sealed class Dog : Animal
+&#123;
+  public override string Speak() =&gt; "woof";
+  public override string Move() =&gt; "runs";
+&#125;
+Animal a = new Dog();
+Console.WriteLine(a.Speak()); // woof</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>export abstract class Animal &#123;
+  abstract speak(): string;
+  move(): string &#123; return "walks"; &#125;
+&#125;
+export class Dog extends Animal &#123;
+  override speak(): string &#123; return "woof"; &#125;
+  override move(): string &#123; return "runs"; &#125;
+&#125;
+const a: Animal = new Dog();
+console.log(a.speak()); // woof</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li><code>abstract → abstract</code>, <code>virtual → plain</code>, <code>override → override</code>, <code>sealed →</code> no keyword (don’t extend / lint rule).</li>
+    <li>Both: single class inheritance + multiple interfaces. TS adds mixins via intersection + helper functions.</li>
+  </ul>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

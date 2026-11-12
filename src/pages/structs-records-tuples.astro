@@ -1,0 +1,73 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("structs-records-tuples");
+---
+
+<Base title="13. Structs, records, tuples — C# vs TypeScript" description="13. Structs, records, tuples: side-by-side C# and TypeScript examples." slug="structs-records-tuples">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 13. Structs, records, tuples</small></p>
+    <h1>13. Structs, records, tuples</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="structs-records-tuples">
+  
+  <h2>13. Structs, records, tuples</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>public struct Point(int x, int y)
+&#123; public int X = x; public int Y = y; &#125; // value type, copied
+
+public record Person(string Name, int Age); // immutable + value equality
+var a = new Person("Ada", 36);
+var b = a with &#123; Age = 37 &#125;; // copy + change
+bool same = a == b; // false (different values? actually false here)
+// new Person("Ada",36) == new Person("Ada",36) → true!
+
+(int code, string msg) t = (200, "ok");
+Console.WriteLine(t.code);</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>// no struct — objects are references
+type Point = &#123; readonly x: number; readonly y: number &#125;;
+
+type Person = &#123; readonly name: string; readonly age: number &#125;;
+const a: Person = &#123; name: "Ada", age: 36 &#125;;
+const b: Person = &#123; ...a, age: 37 &#125;; // copy + change
+// === is reference equality — need deep-equal:
+import &#123; isDeepStrictEqual &#125; from "node:util";
+isDeepStrictEqual(a, &#123; ...a &#125;); // true
+
+const t: [code: number, msg: string] = [200, "ok"];
+const [code, msg] = t;
+type Rec = Record&lt;string, Person&gt;; // dict with fixed value type</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>C# <code>struct</code> = value type (copied). TS objects are always references — copy explicitly with spread.</li>
+    <li>C# <code>record</code> has value equality. TS has none — compare field-by-field or with a helper.</li>
+    <li>Don’t confuse C# <code>record</code> with TS <code>Record&lt;K,V&gt;</code> (typed dictionary).</li>
+  </ul>
+  <h3>Deep dive: readonly + frozen</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>public readonly struct ImmutablePt
+&#123; public int X &#123; get; init; &#125; public int Y &#123; get; init; &#125; &#125;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>const pt = &#123; x: 1, y: 2 &#125; as const; // deeply literal + readonly
+Object.freeze(pt); // runtime freeze (shallow)
+type DeepFrozen&lt;T&gt; = &#123; readonly [K in keyof T]: DeepFrozen&lt;T[K]&gt; &#125;;</code></pre>
+    </div>
+  </Compare>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

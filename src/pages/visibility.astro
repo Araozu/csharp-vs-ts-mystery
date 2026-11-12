@@ -1,0 +1,58 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("visibility");
+---
+
+<Base title="23. Access modifiers — C# vs TypeScript" description="23. Access modifiers: side-by-side C# and TypeScript examples." slug="visibility">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 23. Access modifiers</small></p>
+    <h1>23. Access modifiers</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="visibility">
+  
+  <h2>23. Access modifiers</h2>
+  <table>
+    <thead><tr><th>Intent</th><th>C#</th><th>TypeScript</th></tr></thead>
+    <tbody>
+      <tr><td>Public</td><td><code>public</code> (top-level default is <code>internal</code>)</td><td><code>public</code> (default) / <code>export</code></td></tr>
+      <tr><td>Private to class</td><td><code>private</code> (enforced)</td><td><code>private</code> (compile-time) or <code>#field</code> (runtime)</td></tr>
+      <tr><td>Subclasses</td><td><code>protected</code></td><td><code>protected</code></td></tr>
+      <tr><td>Same project only</td><td><code>internal</code> / <code>InternalsVisibleTo</code></td><td>No equivalent — module privacy via non-exported symbols</td></tr>
+      <tr><td>Static</td><td><code>static</code> + static ctors</td><td><code>static</code> + static blocks</td></tr>
+    </tbody>
+  </table>
+  <Compare>
+    <div slot="left">
+      <pre><code>public class Account
+&#123;
+  private decimal _balance;
+  protected string Owner &#123; get; &#125; = "";
+  internal string AuditId &#123; get; &#125; = "";
+  private protected string Audit2 &#123; get; &#125; = "";
+  public static string Bank =&gt; "Acme";
+&#125;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>export class Account &#123;
+  #balance = 0; // truly private at runtime
+  protected owner = "";
+  static bank = "Acme";
+&#125;
+// internal ≈ don't export from barrel:
+const auditId = ""; // module-private
+export &#123; /* only what callers need */ &#125;;</code></pre>
+    </div>
+  </Compare>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

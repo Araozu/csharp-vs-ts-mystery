@@ -1,0 +1,296 @@
+---
+import Compare from "../components/Compare.astro";
+---
+
+<section id="at-a-glance">
+  <h2>1. At a glance</h2>
+  <table>
+    <thead><tr><th scope="col">Topic</th><th scope="col">C#</th><th scope="col">TypeScript</th></tr></thead>
+    <tbody>
+      <tr><td>Runs on</td><td>.NET CLR (Windows/Linux/macOS, cloud, mobile via MAUI, Unity)</td><td>Any JS runtime (browser, Node, Bun, Deno, workers)</td></tr>
+      <tr><td>Typing</td><td>Nominal, static. Same shape ≠ assignable</td><td>Structural, static (erased). Same shape = assignable</td></tr>
+      <tr><td>Null safety</td><td><code>Nullable enable</code>, <code>T?</code> for refs + <code>Nullable&lt;T&gt;</code> for values</td><td><code>strictNullChecks</code>, <code>| null | undefined</code> unions</td></tr>
+      <tr><td>Inheritance</td><td>Single class + multiple interfaces</td><td>Same, plus mixins + intersection types</td></tr>
+      <tr><td>Generics</td><td>Reified (kept at runtime, reflection works)</td><td>Erased (compile-time only, gone in emitted JS)</td></tr>
+      <tr><td>Concurrency</td><td>Threads, thread-pool, <code>Task</code>, <code>Parallel</code></td><td>Event loop, microtasks, <code>Promise</code>, workers for true threads</td></tr>
+      <tr><td>Errors</td><td>Typed <code>catch (ExType)</code> + filters <code>when</code></td><td>Single <code>catch (unknown)</code>, narrow with <code>instanceof</code></td></tr>
+      <tr><td>Distribution</td><td>NuGet, assemblies, single-file, Native AOT</td><td>npm/jsr, bundlers, <code>tsc</code> emits plain JS</td></tr>
+    </tbody>
+  </table>
+  <h3>Nominal vs structural — the one idea that explains half the differences</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>// Same shape, NOT assignable
+public class UserA &#123; public string Name &#123; get; set; &#125; = ""; &#125;
+public class UserB &#123; public string Name &#123; get; set; &#125; = ""; &#125;
+// UserB b = new UserA(); // error
+// Must implement a shared interface explicitly.</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>// Same shape, assignable
+type UserA = &#123; name: string &#125;;
+type UserB = &#123; name: string &#125;;
+const a: UserA = &#123; name: "Ada" &#125;;
+const b: UserB = a; // OK — structure matches</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>C# asks <em>“what did you declare?”</em> TS asks <em>“what shape do you have?”</em></li>
+    <li>C# generics survive to runtime (<code>typeof(T)</code>, serializers). TS generics do not — pass a value (schema, constructor, tag) if runtime needs it.</li>
+    <li>Both have <code>async/await</code>, but C# schedules on threads; TS schedules on the event-loop microtask queue.</li>
+  </ul>
+</section>
+
+<hr />
+
+<section id="projects">
+  <h2>2. Projects &amp; hello world</h2>
+  <h3>2a. Scaffold + run</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>// dotnet new console -n HelloCs
+// Program.cs — top-level statements
+Console.WriteLine("Hello, C#");
+
+// run:   dotnet run
+// build: dotnet build -c Release
+// test:  dotnet test
+// pack:  dotnet pack</code></pre>
+      <pre><code>// HelloCs.csproj
+&lt;Project Sdk="Microsoft.NET.Sdk"&gt;
+  &lt;PropertyGroup&gt;
+    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
+    &lt;TargetFramework&gt;net8.0&lt;/TargetFramework&gt;
+    &lt;Nullable&gt;enable&lt;/Nullable&gt;
+    &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+  &lt;/PropertyGroup&gt;
+&lt;/Project&gt;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>// npm init -y &amp;&amp; npm i -D typescript @types/node
+// hello.ts
+console.log("Hello, TS");
+
+// run (no build):  npx tsx hello.ts
+// typecheck+emit:   npx tsc &amp;&amp; node dist/hello.js
+// watch:           npx tsc --watch</code></pre>
+      <pre><code>// tsconfig.json
+&#123;
+  "compilerOptions": &#123;
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "outDir": "dist",
+    "declaration": true
+  &#125;,
+  "include": ["src/**/*.ts"]
+&#125;</code></pre>
+    </div>
+  </Compare>
+  <h3>2b. Entry points &amp; top-level await</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>// Top-level statements allowed (Program.cs)
+// + top-level await since C# 9
+string body = await new HttpClient()
+  .GetStringAsync("https://example.com");
+Console.WriteLine(body.Length);</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>// Top-level await allowed in ESM modules
+const res = await fetch("https://example.com");
+const body = await res.text();
+console.log(body.length);</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li><code>Nullable enable</code> ≈ <code>"strict": true</code>. Turn both on for new projects.</li>
+    <li><code>ImplicitUsings</code> ≈ TS auto-imports — both reduce boilerplate, both can confuse newcomers about where names come from.</li>
+    <li>TS ESM imports need explicit <code>.js</code> extensions (<code>./point.js</code>) even though source is <code>.ts</code> — C# <code>using</code> needs no file extension at all.</li>
+  </ul>
+</section>
+
+<hr />
+
+<section id="variables">
+  <h2>3. Variables &amp; mutability</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>var name = "Ada";      // inferred string, still static
+string explicitName = "Grace";
+const string Lang = "C#";   // compile-time const
+readonly string _id = Guid.NewGuid().ToString(); // runtime readonly (field)
+
+int count = 0;
+count = 1;
+
+const int Max = 100; // must be compile-time computable
+// Max = 101; // error</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>let name = "Ada";          // inferred string
+let explicitName: string = "Grace";
+const lang = "C#" as const; // literal type "C#"
+const id: string = crypto.randomUUID();
+
+let count = 0;
+count = 1;
+// lang = "TS"; // error: cannot reassign const
+
+// const = no reassignment, NOT deep freeze:
+const tags = ["a"];
+tags.push("b"); // allowed! array contents mutable</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li><code>var</code> (C#) = type-inferred but fixed. <code>let</code>/<code>const</code> (TS) = same, plus binding mutability.</li>
+    <li>C# <code>const</code> = compile-time constant. TS <code>const</code> = no reassignment. C# <code>readonly</code> field ≈ TS <code>readonly</code> property.</li>
+    <li>TS <code>as const</code> gives literal narrowing (<code>"C#"</code> instead of <code>string</code>) — closest to C# <code>const string</code> semantics for literals.</li>
+  </ul>
+  <h3>Deep dive: scoping</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>for (int i = 0; i &lt; 3; i++)
+  Console.WriteLine(i);
+// Console.WriteLine(i); // error: out of scope
+
+if (true)
+&#123;
+  int scoped = 1;
+&#125;
+// scoped not visible here</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>for (let i = 0; i &lt; 3; i++) console.log(i);
+// console.log(i); // error with let (block-scoped)
+// var i would leak — avoid var in TS!
+
+if (true) &#123;
+  let scoped = 1;
+&#125;
+// scoped not visible here</code></pre>
+    </div>
+  </Compare>
+</section>
+
+<hr />
+
+<section id="primitives">
+  <h2>4. Primitive / built-in types</h2>
+  <table>
+    <thead><tr><th>Concept</th><th>C#</th><th>TypeScript</th></tr></thead>
+    <tbody>
+      <tr><td>Text</td><td><code>string</code> (UTF-16)</td><td><code>string</code> (UTF-16)</td></tr>
+      <tr><td>Boolean</td><td><code>bool</code></td><td><code>boolean</code></td></tr>
+      <tr><td>Integers</td><td><code>int long short byte uint ulong …</code></td><td><code>number</code> (double) + <code>bigint</code></td></tr>
+      <tr><td>Decimals</td><td><code>float double decimal</code> (money-safe)</td><td><code>number</code> only — use libs (decimal.js) for money</td></tr>
+      <tr><td>Date/time</td><td><code>DateTime DateOnly TimeOnly TimeSpan DateTimeOffset</code></td><td><code>Date</code> (+ <code>Temporal</code> proposal / Luxon / date-fns)</td></tr>
+      <tr><td>GUID</td><td><code>Guid</code></td><td><code>string</code> via <code>crypto.randomUUID()</code></td></tr>
+      <tr><td>Nothing</td><td><code>void</code> + <code>null</code></td><td><code>void never null undefined</code></td></tr>
+      <tr><td>Anything</td><td><code>object dynamic</code></td><td><code>object unknown any</code></td></tr>
+    </tbody>
+  </table>
+  <Compare>
+    <div slot="left">
+      <pre><code>int i = 42;
+long big = 9_000_000_000L;
+double d = 0.1 + 0.2;    // 0.30000000000000004
+decimal money = 0.1m + 0.2m; // 0.3 exact
+bool ok = true;
+char c = 'A';            // distinct char type
+DateTime now = DateTime.UtcNow;
+Guid id = Guid.NewGuid();
+TimeSpan ttl = TimeSpan.FromMinutes(5);</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>let i: number = 42;
+let big: bigint = 9_000_000_000n; // note 'n'
+let d = 0.1 + 0.2; // 0.30000000000000004 — same float issue
+// no decimal literal — 0.1+0.2 is float math
+let ok: boolean = true;
+let c = "A"; // no char — single-char string
+let now = new Date();
+let id: string = crypto.randomUUID();
+let ttlMs = 5 * 60 * 1000; // durations are just numbers</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>If C# uses <code>decimal</code> for money, don’t port to TS <code>number</code> naively — use integers-of-cents or a decimal library.</li>
+    <li>TS <code>number</code> covers all C# int/float/double. <code>bigint</code> covers <code>long</code> beyond 2<sup>53</sup> but can’t mix with <code>number</code> without conversion.</li>
+    <li>C# <code>char</code> vs TS single-char <code>string</code>; C# <code>TimeSpan</code> vs TS millisecond numbers or <code>Temporal.Duration</code>.</li>
+  </ul>
+</section>
+
+<hr />
+
+<section id="nullability">
+  <h2>5. Nullability &amp; optionality</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>#nullable enable
+
+string definitely = "hi";
+// definitely = null; // warning
+
+string? maybe = null;
+int? count = null; // Nullable&lt;int&gt;
+
+string result = maybe ?? "fallback";
+string upper = maybe?.ToUpper() ?? "N/A";
+ArgumentNullException.ThrowIfNull(maybe);
+
+int len = maybe?.Length ?? 0;
+int v = count.GetValueOrDefault();
+bool has = count.HasValue;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>let definitely: string = "hi";
+// definitely = null; // error under strict
+
+let maybe: string | null = null;
+let missing: string | undefined; // unassigned
+let count: number | null = null;
+
+let result = maybe ?? "fallback";
+let upper = maybe?.toUpperCase() ?? "N/A";
+if (maybe == null) throw new Error("required");
+
+let len = maybe?.length ?? 0;
+let v = count ?? 0;
+let has = count != null;</code></pre>
+    </div>
+  </Compare>
+  <h3>5a. Optional members + null-forgiving</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>public class User &#123; public string? Nick &#123; get; set; &#125; &#125;
+User u = new();
+string label = u.Nick ?? "anon";
+
+string? input = GetInput();
+int l1 = input!.Length; // "trust me"
+if (input is not null) &#123; int l2 = input.Length; &#125;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>type User = &#123; nick?: string &#125;; // string | undefined
+const u: User = &#123;&#125;;
+const label = u.nick ?? "anon";
+
+let input: string | null = getInput();
+let l1 = input!.length; // "trust me" — same risk
+if (input !== null) &#123; let l2 = input.length; &#125;
+
+// optional chaining + call + index:
+let f = input?.length;
+let r = obj?.method?.();
+let el = arr?.[0];</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li><code>string?</code> (C#) ≈ <code>string | null</code> (TS). TS object properties/params usually need <code>| undefined</code> too (<code>nick?: string</code>).</li>
+    <li><code>?. ?? ??= !</code> exist in both. TS <code>== null</code> checks both null and undefined — the idiomatic “missing” check.</li>
+    <li>Prefer <code>??</code> over <code>||</code> in TS: <code>||</code> also falls through on <code>0/""</code>/<code>false</code>, <code>??</code> only on null/undefined.</li>
+  </ul>
+</section>

@@ -1,0 +1,91 @@
+---
+import Compare from "../components/Compare.astro";
+---
+
+<section id="async">
+  <h2>21. Async: Task vs Promise — in depth</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>async Task&lt;string&gt; FetchAsync(string url, CancellationToken ct)
+&#123;
+  using var http = new HttpClient();
+  return await http.GetStringAsync(url, ct);
+&#125;
+string body = await FetchAsync(url, ct);
+
+// parallel (both start immediately)
+Task&lt;string&gt; a = FetchAsync(u1, ct);
+Task&lt;string&gt; b = FetchAsync(u2, ct);
+string[] both = await Task.WhenAll(a, b);
+
+// fire-and-forget with safety:
+_ = Task.Run(() =&gt; Background(ct));</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>async function fetchText(url: string, signal?: AbortSignal): Promise&lt;string&gt; &#123;
+  const res = await fetch(url, &#123; signal &#125;);
+  if (!res.ok) throw new Error(`HTTP $&#123;res.status&#125;`);
+  return res.text();
+&#125;
+const body = await fetchText(url, signal);
+
+// parallel
+const [a, b] = await Promise.all([fetchText(u1, signal), fetchText(u2, signal)]);
+// tolerant: Promise.allSettled([...])
+// first-wins: Promise.race / Promise.any</code></pre>
+    </div>
+  </Compare>
+  <table>
+    <thead><tr><th>C#</th><th>TS</th></tr></thead>
+    <tbody>
+      <tr><td><code>Task&lt;T&gt;</code></td><td><code>Promise&lt;T&gt;</code></td></tr>
+      <tr><td><code>Task.WhenAll</code></td><td><code>Promise.all</code></td></tr>
+      <tr><td><code>Task.WhenAny</code></td><td><code>Promise.race</code> / <code>Promise.any</code></td></tr>
+      <tr><td><code>CancellationToken</code></td><td><code>AbortSignal</code> / <code>AbortController</code></td></tr>
+      <tr><td><code>IAsyncEnumerable&lt;T&gt;</code> + <code>await foreach</code></td><td><code>AsyncGenerator</code> + <code>for await...of</code></td></tr>
+      <tr><td><code>Parallel.ForEachAsync</code></td><td><code>p-limit</code> + <code>Promise.all</code></td></tr>
+    </tbody>
+  </table>
+  <h3>Concurrency limits + cancellation</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>// bounded parallelism built-in
+await Parallel.ForEachAsync(urls, ct, async (u, t) =&gt;
+&#123; await FetchAsync(u, t); &#125;);
+
+// cooperative cancellation
+ct.ThrowIfCancellationRequested();</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>import pLimit from "p-limit";
+const limit = pLimit(5);
+await Promise.all(urls.map((u) =&gt; limit(() =&gt; fetchText(u, signal))));
+
+const ctrl = new AbortController();
+setTimeout(() =&gt; ctrl.abort(), 5000);
+await fetchText(url, ctrl.signal); // throws AbortError</code></pre>
+    </div>
+  </Compare>
+  <h3>Async streams</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>await foreach (var item in StreamAsync(ct)) Console.WriteLine(item);
+
+async IAsyncEnumerable&lt;int&gt; StreamAsync(
+  [EnumeratorCancellation] CancellationToken ct)
+&#123; for (int i = 0; i &lt; 3; i++) yield return i; &#125;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>for await (const item of stream()) console.log(item);
+
+async function* stream(): AsyncGenerator&lt;number&gt; &#123;
+  for (let i = 0; i &lt; 3; i++) yield i;
+&#125;</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>Both use <code>async/await</code>, but C# continuations run on the thread pool; TS runs on the event-loop microtask queue.</li>
+    <li>Don’t block: C# <code>.Result/.Wait()</code> can deadlock; TS <code>await</code> never blocks the thread.</li>
+    <li>Threads vs event loop: CPU-bound work needs threads in both — C# has them by default, TS needs <code>Worker</code> threads or offload.</li>
+  </ul>
+</section>

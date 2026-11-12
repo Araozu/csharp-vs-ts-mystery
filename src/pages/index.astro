@@ -1,0 +1,91 @@
+---
+import Base from "../layouts/Base.astro";
+import Foundations from "../sections/01-foundations.astro";
+import FunctionsClasses from "../sections/02-functions-classes.astro";
+import DataModeling from "../sections/03-data-modeling.astro";
+import Collections from "../sections/04-collections.astro";
+import ControlErrors from "../sections/05-control-errors.astro";
+import AsyncSec from "../sections/06-async.astro";
+import Organization from "../sections/07-organization.astro";
+import Advanced from "../sections/08-advanced.astro";
+import Ecosystem from "../sections/09-ecosystem.astro";
+import Cheatsheet from "../sections/10-cheatsheet.astro";
+---
+
+<Base
+  title="C# vs TypeScript — Side-by-Side Comparison"
+  description="Comprehensive side-by-side comparisons between C# and TypeScript: syntax, types, OOP, generics, collections, async, modules, and tooling."
+>
+  <div slot="header" id="top">
+    <h1>C# vs TypeScript: Side-by-Side Comparison</h1>
+    <p>
+      Comprehensive, example-driven comparison for developers who know one language
+      and are learning the other. Each topic shows the same idea in both languages,
+      followed by what to watch out for.
+    </p>
+    <p>
+      <strong>How to read this page:</strong> left column is C#, right column is TypeScript.
+      On narrow screens the columns stack with C# first. No styling — layout and content only.
+    </p>
+    <p>
+      <small>
+        Sources split by topic:
+        <code>01-foundations</code>, <code>02-functions-classes</code>,
+        <code>03-data-modeling</code>, <code>04-collections</code>,
+        <code>05-control-errors</code>, <code>06-async</code>,
+        <code>07-organization</code>, <code>08-advanced</code>,
+        <code>09-ecosystem</code>, <code>10-cheatsheet</code>
+        under <code>src/sections/</code>. Shared layout in <code>src/layouts/Base.astro</code>,
+        two-column helper in <code>src/components/Compare.astro</code>.
+      </small>
+    </p>
+
+    <nav class="toc" aria-label="Table of contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#at-a-glance">At a glance</a></li>
+        <li><a href="#projects">Projects &amp; hello world</a></li>
+        <li><a href="#variables">Variables &amp; mutability</a></li>
+        <li><a href="#primitives">Primitive / built-in types</a></li>
+        <li><a href="#nullability">Nullability &amp; optionality</a></li>
+        <li><a href="#inference-casting">Inference, any / object / unknown, casting</a></li>
+        <li><a href="#functions">Functions</a></li>
+        <li><a href="#classes">Classes &amp; constructors</a></li>
+        <li><a href="#interfaces">Interfaces &amp; type aliases</a></li>
+        <li><a href="#inheritance">Inheritance &amp; polymorphism</a></li>
+        <li><a href="#properties">Properties vs accessors</a></li>
+        <li><a href="#enums">Enums</a></li>
+        <li><a href="#structs-records-tuples">Structs, records, tuples</a></li>
+        <li><a href="#generics">Generics</a></li>
+        <li><a href="#collections">Arrays &amp; collections</a></li>
+        <li><a href="#linq">LINQ vs array methods</a></li>
+        <li><a href="#strings">Strings, regex &amp; dates</a></li>
+        <li><a href="#control-flow">Conditionals, switches, loops</a></li>
+        <li><a href="#pattern-matching">Pattern matching &amp; narrowing</a></li>
+        <li><a href="#errors">Error handling</a></li>
+        <li><a href="#async">Async: Task vs Promise</a></li>
+        <li><a href="#modules">Namespaces &amp; modules</a></li>
+        <li><a href="#visibility">Access modifiers</a></li>
+        <li><a href="#delegates">Delegates, lambdas, events</a></li>
+        <li><a href="#overloads">Overloads, optional &amp; params</a></li>
+        <li><a href="#unions">Unions, intersections, discriminated unions</a></li>
+        <li><a href="#immutability">Immutability &amp; readonly</a></li>
+        <li><a href="#attributes">Attributes, decorators, reflection</a></li>
+        <li><a href="#equality">Equality &amp; reference vs value</a></li>
+        <li><a href="#tooling">Tooling &amp; ecosystem</a></li>
+        <li><a href="#cheatsheet">Mental-model cheat sheet</a></li>
+      </ol>
+    </nav>
+  </div>
+
+  <Foundations />
+  <FunctionsClasses />
+  <DataModeling />
+  <Collections />
+  <ControlErrors />
+  <AsyncSec />
+  <Organization />
+  <Advanced />
+  <Ecosystem />
+  <Cheatsheet />
+</Base>

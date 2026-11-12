@@ -1,0 +1,85 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("classes");
+---
+
+<Base title="8. Classes & constructors — C# vs TypeScript" description="8. Classes & constructors: side-by-side C# and TypeScript examples." slug="classes">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 8. Classes & constructors</small></p>
+    <h1>8. Classes &amp; constructors</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="classes">
+  
+  <h2>8. Classes &amp; constructors</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>public class User
+&#123;
+  private readonly string _id;
+  public User(string id, string name)
+  &#123; _id = id; Name = name; &#125;
+
+  public string Name &#123; get; set; &#125;
+  public string Id =&gt; _id;
+  public void Rename(string next) =&gt; Name = next;
+
+  public static User Anonymous() =&gt; new("0", "anon");
+&#125;
+var u = new User("1", "Ada");
+u.Rename("Grace");</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>export class User &#123;
+  constructor(
+    private readonly id: string,
+    public name: string,
+  ) &#123;&#125; // parameter properties
+
+  get upperName(): string &#123; return this.name.toUpperCase(); &#125;
+  rename(next: string): void &#123; this.name = next; &#125;
+  static anonymous(): User &#123; return new User("0", "anon"); &#125;
+&#125;
+const u = new User("1", "Ada");
+u.rename("Grace");
+// u.id compile-error but still accessible at runtime!</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>TS <code>private</code> is compile-time only. Use <code>#id</code> private fields for runtime privacy.</li>
+    <li>TS parameter properties (<code>constructor(private x)</code>) ≈ C# primary constructors <code>class User(string id)</code> — similar idea, different syntax.</li>
+    <li>C# field initializers run before constructor body; same in TS. Order matters for <code>readonly</code> assignment.</li>
+  </ul>
+  <h3>Static + factory deep dive</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>public class Counter
+&#123;
+  private static int _next;
+  public static int Created =&gt; _next;
+  public int Ordinal &#123; get; &#125; = ++_next;
+  static Counter() &#123; /* runs once */ &#125;
+&#125;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>export class Counter &#123;
+  private static next = 0;
+  static get created(): number &#123; return Counter.next; &#125;
+  readonly ordinal: number = ++Counter.next;
+  // static blocks (ES2022):
+  static &#123; /* runs once */ &#125;
+&#125;</code></pre>
+    </div>
+  </Compare>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

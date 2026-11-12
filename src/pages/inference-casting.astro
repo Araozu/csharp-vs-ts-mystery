@@ -1,0 +1,64 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("inference-casting");
+---
+
+<Base title="6. Inference, any / object / unknown, casting — C# vs TypeScript" description="6. Inference, any / object / unknown, casting: side-by-side C# and TypeScript examples." slug="inference-casting">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 6. Inference, any / object / unknown, casting</small></p>
+    <h1>6. Inference, any / object / unknown, casting</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="inference-casting">
+  
+  <h2>6. Inference, any / object / unknown, casting</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>var s = "hello"; // string, fixed
+// s = 5; // error
+
+object o = "abc";    // boxes anything
+dynamic dyn = "hello"; // runtime binding
+dyn = 42;              // allowed, checked at runtime
+
+object x = "abc";
+string a = (string)x;    // throws if wrong
+string? b = x as string; // null if wrong
+bool isStr = x is string;
+if (x is string str) &#123; Console.WriteLine(str.Length); &#125;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>let s = "hello"; // string, fixed
+// s = 5; // error
+
+let o: object = &#123;&#125;;
+let anything: any = "hello";  // escape hatch
+anything = 42;
+let safe: unknown = "hello"; // must narrow first
+// safe.toUpperCase(); // error
+if (typeof safe === "string") safe.toUpperCase(); // OK
+
+let x: unknown = "abc";
+let a = x as string;       // compile-time only, no check!
+let b = &lt;string&gt;x;         // angle form (avoid in .tsx)
+let c = String(x);         // runtime conversion
+let d = typeof x === "string" ? x : "fallback"; // safe</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li><code>object</code> ≈ <code>object</code>, <code>dynamic</code> ≈ <code>any</code>, but TS <code>unknown</code> (safe any) has no direct C# equivalent — prefer it over <code>any</code>.</li>
+    <li>C# casts can throw at runtime. TS <code>as</code> does nothing at runtime — it only tells the compiler what to assume. Validate external data with Zod/Valibot instead.</li>
+    <li>TS <code>satisfies</code> checks shape without widening: <code>const c = &#123;…&#125; satisfies Config</code> ≈ C# object initializer with type checking.</li>
+  </ul>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

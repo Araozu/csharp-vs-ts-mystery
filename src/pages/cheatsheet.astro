@@ -1,0 +1,66 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("cheatsheet");
+---
+
+<Base title="31. Mental-model cheat sheet — C# vs TypeScript" description="31. Mental-model cheat sheet: side-by-side C# and TypeScript examples." slug="cheatsheet">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 31. Mental-model cheat sheet</small></p>
+    <h1>31. Mental-model cheat sheet</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="cheatsheet">
+  
+  <h2>31. Mental-model cheat sheet</h2>
+  <Compare leftLabel="If you know C#, remember…" rightLabel="If you know TS, remember…">
+    <ul slot="left">
+      <li>Types disappear at runtime. Any logic needing a type must receive a <em>value</em> (schema, constructor, string tag).</li>
+      <li><code>undefined</code> is a second null. Check both: <code>== null</code> covers both, <code>??</code> handles both.</li>
+      <li>Object shapes are enough — no <code>implements</code> needed. Excess-property checks on literals are the main friction.</li>
+      <li>Prefer union literals over enums, <code>unknown</code> over <code>any</code>, <code>Map</code> for non-string keys.</li>
+      <li>Validate JSON at runtime. The compiler can’t see over the network.</li>
+      <li><code>sort</code> mutates — use <code>toSorted</code>. Array methods are eager — generators for lazy.</li>
+    </ul>
+    <ul slot="right">
+      <li>C# is nominal — same shape ≠ assignable. Implement the interface explicitly.</li>
+      <li>Generics are real at runtime — <code>typeof(T)</code>, reflection, source generators work.</li>
+      <li><code>null</code> is the main “missing”; value types need <code>?</code> to be nullable (<code>int?</code>).</li>
+      <li>LINQ is lazy; <code>IEnumerable</code> pipelines don’t run until enumerated (<code>ToList()</code>).</li>
+      <li>Equality/mutability depend on <code>class</code> vs <code>struct</code> vs <code>record</code> — pick deliberately.</li>
+      <li>DI, config, and hosting are built-in (ASP.NET) — less glue code than Node.</li>
+    </ul>
+  </Compare>
+
+  <h3>Quick operator / keyword map</h3>
+  <table>
+    <thead><tr><th>C#</th><th>TypeScript</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>var x = …</code></td><td><code>let x / const x</code></td><td>Both infer; TS splits binding mutability</td></tr>
+      <tr><td><code>string?</code></td><td><code>string | null | undefined</code></td><td>TS splits missing in two</td></tr>
+      <tr><td><code>?. ?? ??= !</code></td><td><code>?. ?? ??= !</code></td><td>Same semantics</td></tr>
+      <tr><td><code>is</code> / switch patterns</td><td><code>typeof/instanceof/in</code> + guards</td><td>Different mechanics, same goal</td></tr>
+      <tr><td><code>Func&lt;A,R&gt; / Action&lt;T&gt;</code></td><td><code>(a: A) =&gt; R / (t: T) =&gt; void</code></td><td>TS fn types are structural</td></tr>
+      <tr><td><code>List&lt;T&gt;</code></td><td><code>T[]</code></td><td></td></tr>
+      <tr><td><code>Dictionary&lt;K,V&gt;</code></td><td><code>Map&lt;K,V&gt; / Record&lt;K,V&gt;</code></td><td></td></tr>
+      <tr><td><code>Where/Select/Any/All</code></td><td><code>filter/map/some/every</code></td><td></td></tr>
+      <tr><td><code>Task&lt;T&gt;</code></td><td><code>Promise&lt;T&gt;</code></td><td></td></tr>
+      <tr><td><code>$"…&#123;x&#125;"</code></td><td><code>`…$&#123;x&#125;`</code></td><td></td></tr>
+      <tr><td><code>params</code></td><td><code>...rest</code></td><td></td></tr>
+      <tr><td><code>sealed</code></td><td>(no keyword — don’t extend)</td><td></td></tr>
+      <tr><td><code>record … with</code></td><td><code>&#123; ...obj, k: v &#125;</code></td><td></td></tr>
+      <tr><td><code>IEnumerable + yield</code></td><td><code>Iterable/Generator + function*</code></td><td></td></tr>
+      <tr><td><code>CancellationToken</code></td><td><code>AbortSignal</code></td><td></td></tr>
+    </tbody>
+  </table>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

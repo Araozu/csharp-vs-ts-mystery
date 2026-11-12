@@ -1,0 +1,60 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("modules");
+---
+
+<Base title="22. Namespaces & modules — C# vs TypeScript" description="22. Namespaces & modules: side-by-side C# and TypeScript examples." slug="modules">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 22. Namespaces & modules</small></p>
+    <h1>22. Namespaces &amp; modules</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="modules">
+  
+  <h2>22. Namespaces &amp; modules</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>// Geometry/Point.cs
+namespace Geometry;
+public class Point(int x, int y)
+&#123; public int X =&gt; x; public int Y =&gt; y; &#125;
+
+// usage — namespace, not file path
+using Geometry;
+var p = new Point(1, 2);
+
+// internal visibility stays in-assembly
+internal class Helper &#123; &#125;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>// geometry/point.ts
+export class Point &#123;
+  constructor(readonly x: number, readonly y: number) &#123;&#125;
+&#125;
+// geometry/index.ts — barrel
+export * from "./point.js";
+
+// usage — file path, not namespace
+import &#123; Point &#125; from "./geometry/point.js";
+
+// module-private: just don't export
+class Helper &#123;&#125;</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>C# organizes by namespace + assembly. TS organizes by file + explicit <code>import/export</code>.</li>
+    <li>TS needs <code>.js</code> in relative ESM imports under <code>NodeNext</code>. C# <code>using</code> never mentions files.</li>
+    <li>TS <code>namespace</code> exists but is legacy — use ES modules + barrels.</li>
+  </ul>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

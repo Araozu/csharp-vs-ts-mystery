@@ -1,0 +1,66 @@
+---
+import { NAV } from "../lib/nav";
+interface Props {
+  title?: string;
+  description?: string;
+  slug?: string;
+}
+const { title = "C# vs TypeScript — Side-by-Side Comparison", description = "Comprehensive side-by-side comparisons between C# and TypeScript.", slug } = Astro.props;
+const lastUpdated = new Date().toISOString().slice(0, 10);
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <style>
+    /* Layout / organization only. No theme, no colors, no typography styling. */
+    body { max-width: 1120px; margin: 0 auto; padding: 1rem; }
+    header, main, footer, section { display: block; }
+    nav.toc ol { columns: 2; }
+    @media (max-width: 700px) { nav.toc ol { columns: 1; } }
+    .compare { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    @media (max-width: 900px) { .compare { grid-template-columns: 1fr; } }
+    .compare > div { min-width: 0; }
+    pre { overflow-x: auto; padding: 0.75rem; border: 1px solid; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td { border: 1px solid; padding: 0.4rem; text-align: left; vertical-align: top; }
+    figure { margin: 0; }
+    hr { margin: 2rem 0; }
+    .subgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 700px) { .subgrid { grid-template-columns: 1fr; } }
+    .pager { display: flex; justify-content: space-between; gap: 1rem; margin: 2rem 0 0; }
+    nav.site ul { columns: 2; }
+    @media (max-width: 700px) { nav.site ul { columns: 1; } }
+  </style>
+</head>
+<body>
+  <header>
+    <p><small>C# ↔ TypeScript ↔ Mystery &bull; three-way reference &bull; last updated: {lastUpdated}</small></p>
+    <p><a href="/">← All topics</a></p>
+    <slot name="header" />
+    <slot name="pagenav" />
+  </header>
+  <main>
+    <slot />
+  </main>
+  <footer>
+    <hr />
+    <nav class="site" aria-label="All topics">
+      <h2>All topics</h2>
+      <ul>
+        {NAV.map((e) => (
+          <li>
+            {e.slug === slug ? <strong>{e.title}</strong> : <a href={`/${e.slug}/`}>{e.title}</a>}
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <p><small>Multi-page Astro reference. No CSS framework, no client JS — just semantic HTML with a three-column layout (C# / TS / blank Mystery for you to fill). One full page per topic under <code>src/pages/</code>.</small></p>
+    <p><small><a href="#top">Back to top ↑</a></small></p>
+  </footer>
+</body>
+</html>

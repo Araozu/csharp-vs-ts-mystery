@@ -1,0 +1,90 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("functions");
+---
+
+<Base title="7. Functions — C# vs TypeScript" description="7. Functions: side-by-side C# and TypeScript examples." slug="functions">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 7. Functions</small></p>
+    <h1>7. Functions</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="functions">
+  
+  <h2>7. Functions</h2>
+  <h3>7a. Declarations, arrows, function types</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>int Add(int a, int b) =&gt; a + b;
+
+int Fib(int n)
+&#123;
+  if (n &lt;= 1) return n;
+  return Fib(n - 1) + Fib(n - 2);
+&#125;
+
+Func&lt;int, int, int&gt; add = (a, b) =&gt; a + b;
+Func&lt;int&gt; getRandom = () =&gt; Random.Shared.Next();
+
+// closures capture variables (by reference)
+int factor = 10;
+Func&lt;int, int&gt; scale = x =&gt; x * factor;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>function add(a: number, b: number): number &#123; return a + b; &#125;
+const add2 = (a: number, b: number): number =&gt; a + b;
+
+const fib = (n: number): number =&gt;
+  n &lt;= 1 ? n : fib(n - 1) + fib(n - 2);
+
+type Add = (a: number, b: number) =&gt; number;
+const add3: Add = (a, b) =&gt; a + b;
+
+// closures capture by reference too
+let factor = 10;
+const scale = (x: number): number =&gt; x * factor;</code></pre>
+    </div>
+  </Compare>
+  <h3>7b. Defaults, named args, params</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>void Greet(string name = "world", bool loud = false)
+&#123; /* ... */ &#125;
+Greet(loud: true); // true named args
+Greet("Ada");
+
+int Sum(params int[] nums) =&gt; nums.Sum();
+Sum(1, 2, 3);</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>function greet(name = "world", loud = false) &#123; /* ... */ &#125;
+greet(undefined, true); // placeholder for "named"
+greet("Ada");
+
+// idiomatic named args: options object + destructuring
+function greetOpts(&#123; name = "world", loud = false &#125;: &#123; name?: string; loud?: boolean &#125;) &#123;&#125;
+greetOpts(&#123; loud: true &#125;);
+
+function sum(...nums: number[]): number &#123;
+  return nums.reduce((a, b) =&gt; a + b, 0);
+&#125;
+sum(1, 2, 3); sum(...[1, 2]);</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>Arrow <code>=&gt;</code> exists in both. C# lambdas need a delegate type (<code>Func/Action</code>); TS function types are structural.</li>
+    <li>C# has true named args. TS fakes them with a destructured options object — prefer that once you have &gt;2 params.</li>
+    <li><code>this</code>: C# methods capture per instance. TS arrows capture outer <code>this</code>; regular <code>function</code> gets dynamic <code>this</code> — prefer arrows for callbacks. Use <code>this: void</code> param to forbid dynamic this.</li>
+  </ul>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

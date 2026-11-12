@@ -1,0 +1,92 @@
+---
+import Base from "../layouts/Base.astro";
+import Compare from "../components/Compare.astro";
+import { neighbors } from "../lib/nav";
+const { prev, next } = neighbors("nullability");
+---
+
+<Base title="5. Nullability & optionality — C# vs TypeScript" description="5. Nullability & optionality: side-by-side C# and TypeScript examples." slug="nullability">
+  <div slot="header" id="top">
+    <p><small><a href="/">C# vs TS</a> / 5. Nullability & optionality</small></p>
+    <h1>5. Nullability &amp; optionality</h1>
+    <p><strong>How to read:</strong> left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.</p>
+  </div>
+
+  <section id="nullability">
+  
+  <h2>5. Nullability &amp; optionality</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>#nullable enable
+
+string definitely = "hi";
+// definitely = null; // warning
+
+string? maybe = null;
+int? count = null; // Nullable&lt;int&gt;
+
+string result = maybe ?? "fallback";
+string upper = maybe?.ToUpper() ?? "N/A";
+ArgumentNullException.ThrowIfNull(maybe);
+
+int len = maybe?.Length ?? 0;
+int v = count.GetValueOrDefault();
+bool has = count.HasValue;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>let definitely: string = "hi";
+// definitely = null; // error under strict
+
+let maybe: string | null = null;
+let missing: string | undefined; // unassigned
+let count: number | null = null;
+
+let result = maybe ?? "fallback";
+let upper = maybe?.toUpperCase() ?? "N/A";
+if (maybe == null) throw new Error("required");
+
+let len = maybe?.length ?? 0;
+let v = count ?? 0;
+let has = count != null;</code></pre>
+    </div>
+  </Compare>
+  <h3>5a. Optional members + null-forgiving</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>public class User &#123; public string? Nick &#123; get; set; &#125; &#125;
+User u = new();
+string label = u.Nick ?? "anon";
+
+string? input = GetInput();
+int l1 = input!.Length; // "trust me"
+if (input is not null) &#123; int l2 = input.Length; &#125;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>type User = &#123; nick?: string &#125;; // string | undefined
+const u: User = &#123;&#125;;
+const label = u.nick ?? "anon";
+
+let input: string | null = getInput();
+let l1 = input!.length; // "trust me" — same risk
+if (input !== null) &#123; let l2 = input.length; &#125;
+
+// optional chaining + call + index:
+let f = input?.length;
+let r = obj?.method?.();
+let el = arr?.[0];</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li><code>string?</code> (C#) ≈ <code>string | null</code> (TS). TS object properties/params usually need <code>| undefined</code> too (<code>nick?: string</code>).</li>
+    <li><code>?. ?? ??= !</code> exist in both. TS <code>== null</code> checks both null and undefined — the idiomatic “missing” check.</li>
+    <li>Prefer <code>??</code> over <code>||</code> in TS: <code>||</code> also falls through on <code>0/""</code>/<code>false</code>, <code>??</code> only on null/undefined.</li>
+  </ul>
+
+  </section>
+
+  <nav class="pager" aria-label="Previous / next topic">
+    <span>{prev ? <a href={`/${prev.slug}/`}>← {prev.title}</a> : <span />}</span>
+    <span><a href="/">All topics</a></span>
+    <span>{next ? <a href={`/${next.slug}/`}>{next.title} →</a> : <span />}</span>
+  </nav>
+</Base>

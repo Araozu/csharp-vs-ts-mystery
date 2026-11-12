@@ -1,0 +1,147 @@
+---
+import Compare from "../components/Compare.astro";
+---
+
+<section id="enums">
+  <h2>12. Enums</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>public enum Role &#123; Admin, Editor, Viewer &#125;
+public enum Status : byte &#123; Active = 1, Archived = 2 &#125;
+
+Role r = Role.Admin;
+string s = r.ToString(); // "Admin"
+Role p = Enum.Parse&lt;Role&gt;("Admin");
+bool ok = Enum.TryParse("admin", ignoreCase: true, out Role rr);
+
+[Flags] public enum Perms &#123; None=0, Read=1, Write=2 &#125;
+Perms p2 = Perms.Read | Perms.Write;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>enum Role &#123; Admin, Editor, Viewer &#125; // numeric, avoid
+enum Status &#123; Active = "active", Archived = "archived" &#125; // string enum
+
+// modern idiom: union of literals (preferred)
+type Role2 = "admin" | "editor" | "viewer";
+const r: Role2 = "admin";
+
+const PERMS = &#123; None: 0, Read: 1, Write: 2 &#125; as const;
+type Perm = typeof PERMS[keyof typeof PERMS];
+const p2 = PERMS.Read | PERMS.Write; // number flag math</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>Prefer TS string-union literals over <code>enum</code> — they erase cleanly, autocomplete, and narrow in switches.</li>
+    <li>C# enums are ints with <code>ToString/Parse</code>. TS numeric enums allow reverse mapping (<code>Role[0]</code>) — confusing, avoid.</li>
+    <li><code>[Flags]</code> ≈ manual bitmask with <code>as const</code> object + numeric union.</li>
+  </ul>
+</section>
+
+<hr />
+
+<section id="structs-records-tuples">
+  <h2>13. Structs, records, tuples</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>public struct Point(int x, int y)
+&#123; public int X = x; public int Y = y; &#125; // value type, copied
+
+public record Person(string Name, int Age); // immutable + value equality
+var a = new Person("Ada", 36);
+var b = a with &#123; Age = 37 &#125;; // copy + change
+bool same = a == b; // false (different values? actually false here)
+// new Person("Ada",36) == new Person("Ada",36) → true!
+
+(int code, string msg) t = (200, "ok");
+Console.WriteLine(t.code);</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>// no struct — objects are references
+type Point = &#123; readonly x: number; readonly y: number &#125;;
+
+type Person = &#123; readonly name: string; readonly age: number &#125;;
+const a: Person = &#123; name: "Ada", age: 36 &#125;;
+const b: Person = &#123; ...a, age: 37 &#125;; // copy + change
+// === is reference equality — need deep-equal:
+import &#123; isDeepStrictEqual &#125; from "node:util";
+isDeepStrictEqual(a, &#123; ...a &#125;); // true
+
+const t: [code: number, msg: string] = [200, "ok"];
+const [code, msg] = t;
+type Rec = Record&lt;string, Person&gt;; // dict with fixed value type</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li>C# <code>struct</code> = value type (copied). TS objects are always references — copy explicitly with spread.</li>
+    <li>C# <code>record</code> has value equality. TS has none — compare field-by-field or with a helper.</li>
+    <li>Don’t confuse C# <code>record</code> with TS <code>Record&lt;K,V&gt;</code> (typed dictionary).</li>
+  </ul>
+  <h3>Deep dive: readonly + frozen</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>public readonly struct ImmutablePt
+&#123; public int X &#123; get; init; &#125; public int Y &#123; get; init; &#125; &#125;</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>const pt = &#123; x: 1, y: 2 &#125; as const; // deeply literal + readonly
+Object.freeze(pt); // runtime freeze (shallow)
+type DeepFrozen&lt;T&gt; = &#123; readonly [K in keyof T]: DeepFrozen&lt;T[K]&gt; &#125;;</code></pre>
+    </div>
+  </Compare>
+</section>
+
+<hr />
+
+<section id="generics">
+  <h2>14. Generics</h2>
+  <Compare>
+    <div slot="left">
+      <pre><code>T First&lt;T&gt;(List&lt;T&gt; items) =&gt; items[0];
+
+public class Repo&lt;T&gt; where T : class, new()
+&#123;
+  public T Create() =&gt; new T();
+  public void Save(T item) &#123; /* ... */ &#125;
+&#125;
+
+// reified: works at runtime
+bool IsInt&lt;T&gt;(T v) =&gt; typeof(T) == typeof(int);
+
+// variance: interface-level
+// IEnumerable&lt;out T&gt; covariant, Action&lt;in T&gt; contravariant</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>function first&lt;T&gt;(items: T[]): T &#123; return items[0]; &#125;
+
+export class Repo&lt;T extends object&gt; &#123;
+  constructor(private make: () =&gt; T) &#123;&#125;
+  create(): T &#123; return this.make(); &#125;
+  save(item: T): void &#123; /* ... */ &#125;
+&#125;
+// 'new' constraint ≈ constructor signature:
+type Ctor&lt;T&gt; = new (...args: never[]) =&gt; T;
+
+// erased: NO runtime typeof(T) — pass a tag:
+function isInt(v: unknown, tag: string): boolean &#123; return tag === "int"; &#125;</code></pre>
+    </div>
+  </Compare>
+  <h3>Constraints + defaults + helpers</h3>
+  <Compare>
+    <div slot="left">
+      <pre><code>// constraints
+void Print&lt;T&gt;(T v) where T : notnull, IDisposable &#123; /* ... */ &#125;
+// defaults not allowed on methods pre-C#? now via overloads</code></pre>
+    </div>
+    <div slot="right">
+      <pre><code>function print&lt;T extends &#123; id: string &#125;&gt;(v: T): void &#123;&#125;
+function wrap&lt;T = string&gt;(v?: T): T[] &#123; return v == null ? [] : [v]; &#125;;
+
+// powerhouse helpers (no C# equivalent):
+type Partial&lt;T&gt;, Pick&lt;T, K&gt;, Omit&lt;T, K&gt;, ReturnType&lt;F&gt;, Awaited&lt;T&gt;</code></pre>
+    </div>
+  </Compare>
+  <ul>
+    <li><code>where T : class, new()</code> ≈ <code>&lt;T extends object&gt;</code> + constructor param.</li>
+    <li>Biggest gap: C# reified vs TS erased. Serialization, DI, and validation need explicit runtime values in TS.</li>
+  </ul>
+</section>
