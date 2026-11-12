@@ -1,66 +1,79 @@
 ---
-import { NAV } from "../lib/nav";
+import { getCollection } from "astro:content";
+import "../styles/global.css";
+
 interface Props {
-  title?: string;
-  description?: string;
-  slug?: string;
+  title: string;
+  description: string;
+  current?: string;
 }
-const { title = "C# vs TypeScript — Side-by-Side Comparison", description = "Comprehensive side-by-side comparisons between C# and TypeScript.", slug } = Astro.props;
-const lastUpdated = new Date().toISOString().slice(0, 10);
+
+const { title, description, current } = Astro.props;
+const topics = (await getCollection("topics")).sort((a, b) => a.data.order - b.data.order);
+const fonts =
+  "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..500&family=IBM+Plex+Mono:wght@400;500&display=swap";
 ---
 
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title}</title>
-  <meta name="description" content={description} />
-  <style>
-    /* Layout / organization only. No theme, no colors, no typography styling. */
-    body { max-width: 1120px; margin: 0 auto; padding: 1rem; }
-    header, main, footer, section { display: block; }
-    nav.toc ol { columns: 2; }
-    @media (max-width: 700px) { nav.toc ol { columns: 1; } }
-    .compare { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
-    @media (max-width: 900px) { .compare { grid-template-columns: 1fr; } }
-    .compare > div { min-width: 0; }
-    pre { overflow-x: auto; padding: 0.75rem; border: 1px solid; }
-    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-    th, td { border: 1px solid; padding: 0.4rem; text-align: left; vertical-align: top; }
-    figure { margin: 0; }
-    hr { margin: 2rem 0; }
-    .subgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    @media (max-width: 700px) { .subgrid { grid-template-columns: 1fr; } }
-    .pager { display: flex; justify-content: space-between; gap: 1rem; margin: 2rem 0 0; }
-    nav.site ul { columns: 2; }
-    @media (max-width: 700px) { nav.site ul { columns: 1; } }
-  </style>
-</head>
-<body>
-  <header>
-    <p><small>C# ↔ TypeScript ↔ Mystery &bull; three-way reference &bull; last updated: {lastUpdated}</small></p>
-    <p><a href="/">← All topics</a></p>
-    <slot name="header" />
-    <slot name="pagenav" />
-  </header>
-  <main>
-    <slot />
-  </main>
-  <footer>
-    <hr />
-    <nav class="site" aria-label="All topics">
-      <h2>All topics</h2>
-      <ul>
-        {NAV.map((e) => (
-          <li>
-            {e.slug === slug ? <strong>{e.title}</strong> : <a href={`/${e.slug}/`}>{e.title}</a>}
-          </li>
-        ))}
-      </ul>
-    </nav>
-    <p><small>Multi-page Astro reference. No CSS framework, no client JS — just semantic HTML with a three-column layout (C# / TS / blank Mystery for you to fill). One full page per topic under <code>src/pages/</code>.</small></p>
-    <p><small><a href="#top">Back to top ↑</a></small></p>
-  </footer>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={fonts} />
+  </head>
+  <body class="min-h-screen bg-paper font-body text-ink antialiased">
+    <header class="border-b border-rule">
+      <div class="mx-auto flex max-w-[88rem] items-center justify-between gap-6 px-6 py-4 lg:px-10">
+        <a
+          href="/"
+          class="font-display text-[1.35rem] font-medium leading-none text-ink no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts"
+        >
+          Facing pages
+        </a>
+        <p class="hidden font-mono text-sm text-ink-soft md:block">C# ↔ TypeScript ↔ yours</p>
+        <details class="relative">
+          <summary
+            class="cursor-pointer list-none font-display text-[1.05rem] font-medium text-ink [&::-webkit-details-marker]:hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts"
+          >
+            All topics
+          </summary>
+          <nav
+            aria-label="All topics"
+            class="absolute right-0 z-10 mt-4 w-[min(46rem,calc(100vw-3rem))] border border-rule bg-sheet p-6 shadow-[0_18px_40px_-24px_rgb(27_36_51/0.35)]"
+          >
+            <ol class="grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+              {
+                topics.map((t) => (
+                  <li>
+                    <a
+                      href={`/${t.slug}/`}
+                      aria-current={t.slug === current ? "page" : undefined}
+                      class="flex gap-3 py-0.5 text-[0.98rem] text-ink no-underline hover:text-ts aria-[current=page]:font-semibold aria-[current=page]:text-ts focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ts"
+                    >
+                      <span class="w-6 shrink-0 font-mono text-sm text-ink-soft tabular-nums">
+                        {String(t.data.order).padStart(2, "0")}
+                      </span>
+                      <span>{t.data.title}</span>
+                    </a>
+                  </li>
+                ))
+              }
+            </ol>
+          </nav>
+        </details>
+      </div>
+    </header>
+    <main class="mx-auto max-w-[88rem] px-6 pb-24 pt-14 lg:px-10">
+      <slot />
+    </main>
+    <footer class="border-t border-rule">
+      <div class="mx-auto max-w-[88rem] px-6 py-8 text-sm text-ink-soft lg:px-10">
+        The Mystery column stays blank on purpose. Fill it in with your own language.
+      </div>
+    </footer>
+  </body>
 </html>

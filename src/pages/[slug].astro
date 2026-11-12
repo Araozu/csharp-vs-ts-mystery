@@ -1,0 +1,56 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Prose from "../components/Prose.astro";
+
+export async function getStaticPaths() {
+  const topics = await getCollection("topics");
+  return topics.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const topics = (await getCollection("topics")).sort((a, b) => a.data.order - b.data.order);
+const index = topics.findIndex((t) => t.slug === entry.slug);
+const prev = topics[index - 1];
+const next = topics[index + 1];
+---
+
+<Base title={`${entry.data.title} — C# vs TypeScript`} description={entry.data.description} current={entry.slug}>
+  <article class="motion-safe:animate-rise">
+    <header class="max-w-[68ch]">
+      <p class="font-mono text-sm text-ink-soft tabular-nums">
+        {String(entry.data.order).padStart(2, "0")} / {topics.length}
+      </p>
+      <h1 class="mt-3 font-display text-[clamp(2.75rem,6vw,5rem)] font-medium leading-[1.02] tracking-[-0.02em] text-ink">
+        {entry.data.title}
+      </h1>
+    </header>
+    <Prose>
+      <Content />
+    </Prose>
+  </article>
+
+  <nav aria-label="Previous and next topic" class="mt-28 grid gap-8 border-t border-rule pt-10 sm:grid-cols-2">
+    {
+      prev ? (
+        <a href={`/${prev.slug}/`} class="group flex flex-col gap-1 text-ink no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts">
+          <span class="font-mono text-sm text-ink-soft tabular-nums">{String(prev.data.order).padStart(2, "0")}</span>
+          <span class="font-display text-[1.5rem] font-medium leading-tight group-hover:text-ts">{prev.data.title}</span>
+        </a>
+      ) : (
+        <span />
+      )
+    }
+    {
+      next ? (
+        <a href={`/${next.slug}/`} class="group flex flex-col gap-1 text-ink no-underline sm:items-end sm:text-right focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ts">
+          <span class="font-mono text-sm text-ink-soft tabular-nums">{String(next.data.order).padStart(2, "0")}</span>
+          <span class="font-display text-[1.5rem] font-medium leading-tight group-hover:text-ts">{next.data.title}</span>
+        </a>
+      ) : (
+        <span />
+      )
+    }
+  </nav>
+</Base>

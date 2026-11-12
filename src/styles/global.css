@@ -1,0 +1,90 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/*
+ * Facing pages: a bilingual reference printed on two facing pages (C#, TypeScript)
+ * with a blank third page for the reader's own language.
+ */
+@theme {
+  --font-display: "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --animate-rise: rise 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* Colours point at the light-dark() tokens below, so utilities follow the system scheme. */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-sheet: var(--sheet);
+  --color-well: var(--well);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-rule: var(--rule);
+  --color-csharp: var(--csharp);
+  --color-ts: var(--ts);
+  --color-mystery: var(--mystery);
+}
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+
+    --paper: light-dark(#edf0ef, #161c24);
+    --sheet: light-dark(#f8f9f8, #1e2631);
+    --well: light-dark(#dfe4e2, #1f2a36);
+    --ink: light-dark(#1b2433, #e3e8ed);
+    --ink-soft: light-dark(#4d5a64, #9ba8b5);
+    --rule: light-dark(#c3cbc9, #334050);
+    --csharp: light-dark(#6b2a5e, #d9a2cf);
+    --ts: light-dark(#22508a, #8fb9ea);
+    --mystery: light-dark(#8a5a0b, #e0b567);
+
+    --astro-code-color-text: var(--ink);
+    --astro-code-color-background: var(--well);
+    --astro-code-token-keyword: light-dark(#7a2a5c, #e3a6d5);
+    --astro-code-token-string: light-dark(#2a6a3c, #a6d9ae);
+    --astro-code-token-string-expression: light-dark(#2a6a3c, #a6d9ae);
+    --astro-code-token-comment: light-dark(#5b6470, #8b98a6);
+    --astro-code-token-function: light-dark(#22508a, #8fb9ea);
+    --astro-code-token-constant: light-dark(#8a4a10, #e9b97f);
+    --astro-code-token-parameter: light-dark(#2b3445, #cfd8e2);
+    --astro-code-token-punctuation: light-dark(#4d5a64, #a3afbc);
+    --astro-code-token-link: light-dark(#22508a, #8fb9ea);
+  }
+
+  body {
+    font-optical-sizing: auto;
+  }
+}
+
+/* Unlayered on purpose: typography's rules sit in a Tailwind layer, and this must win over them. */
+.prose {
+  --tw-prose-body: var(--ink);
+  --tw-prose-headings: var(--ink);
+  --tw-prose-bold: var(--ink);
+  --tw-prose-links: var(--ts);
+  --tw-prose-code: var(--ink);
+  --tw-prose-pre-bg: var(--well);
+  --tw-prose-pre-code: var(--ink);
+  --tw-prose-th-borders: var(--ink);
+  --tw-prose-td-borders: var(--rule);
+  --tw-prose-bullets: var(--ink-soft);
+  --tw-prose-counters: var(--ink-soft);
+}
+
+.prose code::before,
+.prose code::after {
+  content: none;
+}
