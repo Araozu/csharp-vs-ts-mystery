@@ -88,3 +88,7 @@
 .prose code::after {
   content: none;
 }
+
+html, body {
+  font-size: 18px;
+}
