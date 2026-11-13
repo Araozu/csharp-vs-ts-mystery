@@ -31,10 +31,18 @@ const tags = ["a"];
 tags.push("b"); // allowed! array contents mutable
 ```
 
-
 ```nara
+var name = "Ada"
+var explicit_name: String = "Grace"
+val lang = "C#"
+val max = 100
 
+type C = struct {
+    _id: std.Guid,
+    kind: String = "user"
+}
 ```
+
 - `var` (C#) = type-inferred but fixed. `let`/`const` (TS) = same, plus binding mutability.
 - C# `const` = compile-time constant. TS `const` = no reassignment. C# `readonly` field ≈ TS `readonly` property.
 - TS `as const` gives literal narrowing (`"C#"` instead of `string`) — closest to C# `const string` semantics for literals.

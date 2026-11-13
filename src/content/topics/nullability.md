@@ -43,10 +43,19 @@ let v = count ?? 0;
 let has = count != null;
 ```
 
-
 ```nara
+val definitely: String = "hi"
+//  definitely = null  // always error
 
+var maybe: ?String = null
+var count: ?number = null
+
+
+val result = maybe ?? "fallback"
+val upper  = maybe?.upper() ?? "N/A"
+if (maybe == null) return error.NPE
 ```
+
 ### 5a. Optional members + null-forgiving
 
 ```csharp

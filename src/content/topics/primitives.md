@@ -45,8 +45,15 @@ let ttlMs = 5 * 60 * 1000; // durations are just numbers
 
 
 ```nara
-
+val i: i64      = 42
+val big: bigint = 9_000_000_000
+val d: f64      = 0.1 + 0.2
+// no decimal yet?
+val ok: bool    = true
+val c: char     = 'A'
+val date = std.time.now()
 ```
+
 - If C# uses `decimal` for money, don’t port to TS `number` naively — use integers-of-cents or a decimal library.
 - TS `number` covers all C# int/float/double. `bigint` covers `long` beyond 2<sup>53</sup> but can’t mix with `number` without conversion.
 - C# `char` vs TS single-char `string`; C# `TimeSpan` vs TS millisecond numbers or `Temporal.Duration`.

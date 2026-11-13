@@ -49,10 +49,13 @@ tags.push("b"); // allowed!
 const frozen = ["a"] as const; // readonly ["a"]
 ```
 
-
 ```nara
-
+var name = "Ada"
+var explicit_name: String = "Grace"
+val lang = "C#"
+val max = 100
 ```
+
 - C# `var` = inferred but fixed type. TS `let`/`const` = same, plus binding mutability.
 - C# `const` = embedded at compile time. TS `const` = no reassignment. Don’t map them 1:1.
 - C# `readonly` field ≈ TS `readonly` property (assign once, then frozen).
@@ -82,10 +85,16 @@ const w2 = null; // type: null (narrow, const)
 function f(v = "hi") { /* v: string */ }
 ```
 
-
 ```nara
+var s = "hi"
+// s = 5  // error
+var x: ?String = null
+// var y  // error - must initialize
 
+var n = 5  // i64
+n = 5.5    // error
 ```
+
 - Always annotate when initializing with `null`: C# `string? x = null`, TS `let x: string | null = null`.
 - TS `let` widens literals (`"hi"` → `string`); `const` preserves them. Use `as const` when you need the literal.
 
@@ -119,10 +128,23 @@ let a = 1;
 console.log(a); // 1
 ```
 
-
 ```nara
+use std
 
+for (0..3) |i| {
+    std.print(i)
+}
+
+if (true) {
+    val t = 1
+}
+
+var a = 1
+{
+    var a = 2  // error: no shadowing
+}
 ```
+
 ## 4. The closure-in-a-loop trap
 
 ```csharp
@@ -148,10 +170,18 @@ bad.forEach((f) => f()); // 3 3 3 — classic bug
 // fix: use let, or capture: const copy = i;
 ```
 
-
 ```nara
+use std.{print, ArrayList}
 
+val fns: ArrayList[fun() -> void] = .new()
+for (1..=3) |n| {
+    fns.append(fun() {
+        std.print(n)
+    })
+}
+for (fns) |fn| { fn() }
 ```
+
 - Rule: always use `let/const` in TS loops, fresh locals in C# `for` when capturing into lambdas/tasks.
 
 ## 5. Definite assignment
@@ -178,7 +208,10 @@ console.log(s); // OK with strict (control-flow proves it)
 // name!: string;
 ```
 
-
 ```nara
+use std.time
 
+var s: String = ""  // must initialize
+if (time.now().unix() % 2 == 0) s = "a"
+else s = "b"
 ```
