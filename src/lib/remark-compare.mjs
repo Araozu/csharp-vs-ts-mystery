@@ -90,9 +90,6 @@ function groupChildren(children) {
 
     if (lang) {
       group ??= newGroup();
-      // "nara" is a placeholder column, not a real Shiki language.
-      // Map it to plaintext so highlighting doesn't warn/fallback.
-      if (child.type === "code" && child.lang === "nara") child.lang = "plaintext";
       group.columns[lang].push(child);
       if (label && !group.labels[lang]) group.labels[lang] = label;
     } else {
