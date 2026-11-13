@@ -34,7 +34,7 @@ class DbUser implements User {
 ```
 
 
-```mystery
+```nara
 
 ```
 - TS interfaces are structural + erasable. C# interfaces are nominal + enforced at runtime.

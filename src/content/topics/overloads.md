@@ -4,7 +4,7 @@ description: "25. Overloads, optional & params: side-by-side C# and TypeScript e
 order: 25
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 25. Overloads, optional & params
 
@@ -31,7 +31,7 @@ sum(1, 2, 3); sum(...[1, 2]);
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# resolves overloads by arity/types at compile time. TS overloads are compile-time only — one runtime implementation handles all.

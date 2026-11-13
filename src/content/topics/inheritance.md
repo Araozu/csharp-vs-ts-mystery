@@ -4,7 +4,7 @@ description: "10. Inheritance & polymorphism: side-by-side C# and TypeScript exa
 order: 10
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 10. Inheritance & polymorphism
 
@@ -37,7 +37,7 @@ console.log(a.speak()); // woof
 ```
 
 
-```mystery
+```nara
 
 ```
 - `abstract → abstract`, `virtual → plain`, `override → override`, `sealed →` no keyword (don’t extend / lint rule).

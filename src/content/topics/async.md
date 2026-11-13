@@ -4,7 +4,7 @@ description: "21. Async: Task vs Promise — in depth: side-by-side C# and TypeS
 order: 21
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 21. Async: Task vs Promise — in depth
 
@@ -40,7 +40,7 @@ const [a, b] = await Promise.all([fetchText(u1, signal), fetchText(u2, signal)])
 ```
 
 
-```mystery
+```nara
 
 ```
 | C# | TS |
@@ -74,7 +74,7 @@ await fetchText(url, ctrl.signal); // throws AbortError
 ```
 
 
-```mystery
+```nara
 
 ```
 ### Async streams
@@ -96,7 +96,7 @@ async function* stream(): AsyncGenerator<number> {
 ```
 
 
-```mystery
+```nara
 
 ```
 - Both use `async/await`, but C# continuations run on the thread pool; TS runs on the event-loop microtask queue.

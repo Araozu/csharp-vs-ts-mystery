@@ -4,7 +4,7 @@ description: "19. Pattern matching & narrowing: side-by-side C# and TypeScript e
 order: 19
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 19. Pattern matching & narrowing
 
@@ -47,7 +47,7 @@ function assertNever(x: never): never { throw new Error("unhandled"); }
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# patterns match on runtime type. TS narrows via discriminant props (`kind`), `typeof`, `in`, and guard functions.
@@ -74,6 +74,6 @@ const [a = 0] = []; // defaults
 ```
 
 
-```mystery
+```nara
 
 ```

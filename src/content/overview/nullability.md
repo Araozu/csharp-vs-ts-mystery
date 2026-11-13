@@ -39,7 +39,7 @@ let has = count != null;
 ```
 
 
-```mystery
+```nara
 
 ```
 ### 5a. Optional members + null-forgiving
@@ -70,7 +70,7 @@ let el = arr?.[0];
 ```
 
 
-```mystery
+```nara
 
 ```
 - `string?` (C#) ≈ `string | null` (TS). TS object properties/params usually need `| undefined` too (`nick?: string`).

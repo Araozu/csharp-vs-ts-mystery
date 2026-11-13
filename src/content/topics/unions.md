@@ -4,7 +4,7 @@ description: "26. Unions, intersections, discriminated unions: side-by-side C# a
 order: 26
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 26. Unions, intersections, discriminated unions
 
@@ -41,7 +41,7 @@ type Keys = keyof Person; // "name" | "age"
 ```
 
 
-```mystery
+```nara
 
 ```
 - Biggest modeling gap. In TS reach for unions of literals; in C# reach for `abstract record` hierarchies.

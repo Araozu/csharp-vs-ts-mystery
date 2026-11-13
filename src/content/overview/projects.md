@@ -55,7 +55,8 @@ console.log("Hello, TS");
 ```
 
 
-```mystery
+```nara
+oo
 
 ```
 ### 2b. Entry points & top-level await
@@ -76,7 +77,7 @@ console.log(body.length);
 ```
 
 
-```mystery
+```nara
 
 ```
 - `Nullable enable` ≈ `"strict": true`. Turn both on for new projects.

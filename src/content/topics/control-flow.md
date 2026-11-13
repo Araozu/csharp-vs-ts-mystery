@@ -4,7 +4,7 @@ description: "18. Conditionals, switches, loops: side-by-side C# and TypeScript 
 order: 18
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 18. Conditionals, switches, loops
 
@@ -50,7 +50,7 @@ while (more) { /* ... */ }
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# `foreach` = TS `for...of`. TS `for...in` iterates keys — almost never what you want for arrays.

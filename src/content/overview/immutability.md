@@ -27,7 +27,7 @@ type DeepRO<T> = { readonly [K in keyof T]: DeepRO<T[K]> };
 ```
 
 
-```mystery
+```nara
 
 ```
 - Both favor copy-on-write: C# `with`, TS object/array spread.

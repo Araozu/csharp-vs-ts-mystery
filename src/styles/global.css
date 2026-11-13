@@ -34,7 +34,7 @@
   --color-rule: var(--rule);
   --color-csharp: var(--csharp);
   --color-ts: var(--ts);
-  --color-mystery: var(--mystery);
+  --color-nara: var(--nara);
 }
 
 @layer base {
@@ -49,7 +49,7 @@
     --rule: light-dark(#c3cbc9, #334050);
     --csharp: light-dark(#6b2a5e, #d9a2cf);
     --ts: light-dark(#22508a, #8fb9ea);
-    --mystery: light-dark(#8a5a0b, #e0b567);
+    --nara: light-dark(#8a5a0b, #e0b567);
 
     --astro-code-color-text: var(--ink);
     --astro-code-color-background: var(--well);

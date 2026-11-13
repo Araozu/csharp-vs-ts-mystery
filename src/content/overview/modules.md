@@ -33,7 +33,7 @@ class Helper {}
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# organizes by namespace + assembly. TS organizes by file + explicit `import/export`.

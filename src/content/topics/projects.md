@@ -4,7 +4,7 @@ description: "2. Projects & hello world: side-by-side C# and TypeScript examples
 order: 2
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 2. Projects & hello world
 
@@ -60,9 +60,13 @@ console.log("Hello, TS");
 ```
 
 
-```mystery
+```nara
+// nara init
+use std
 
+std.print("Hello, Nara")
 ```
+
 ### 2b. Entry points & top-level await
 
 ```csharp
@@ -81,7 +85,7 @@ console.log(body.length);
 ```
 
 
-```mystery
+```nara
 
 ```
 - `Nullable enable` ≈ `"strict": true`. Turn both on for new projects.

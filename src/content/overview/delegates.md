@@ -31,7 +31,7 @@ target.addEventListener("click", (e) => console.log(e));
 ```
 
 
-```mystery
+```nara
 
 ```
 - `Func<A,R>` ≈ `(a: A) => R`, `Action<T>` ≈ `(t: T) => void`.

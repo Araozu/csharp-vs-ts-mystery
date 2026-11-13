@@ -39,7 +39,7 @@ let ttlMs = 5 * 60 * 1000; // durations are just numbers
 ```
 
 
-```mystery
+```nara
 
 ```
 - If C# uses `decimal` for money, don’t port to TS `number` naively — use integers-of-cents or a decimal library.

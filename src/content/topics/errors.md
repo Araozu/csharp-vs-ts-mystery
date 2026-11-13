@@ -4,7 +4,7 @@ description: "20. Error handling — in depth: side-by-side C# and TypeScript ex
 order: 20
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 20. Error handling — in depth
 
@@ -39,7 +39,7 @@ type Result<T> = { ok: true; value: T } | { ok: false; error: string };
 ```
 
 
-```mystery
+```nara
 
 ```
 ### Custom errors
@@ -60,7 +60,7 @@ throw new NotFoundError("1");
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# catches by type + `when` guards. TS has one catch — discriminate with `instanceof`.

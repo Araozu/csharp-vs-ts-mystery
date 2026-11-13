@@ -4,7 +4,7 @@ description: "8. Classes & constructors: side-by-side C# and TypeScript examples
 order: 8
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 8. Classes & constructors
 
@@ -42,7 +42,7 @@ u.rename("Grace");
 ```
 
 
-```mystery
+```nara
 
 ```
 - TS `private` is compile-time only. Use `#id` private fields for runtime privacy.
@@ -72,6 +72,6 @@ export class Counter {
 ```
 
 
-```mystery
+```nara
 
 ```

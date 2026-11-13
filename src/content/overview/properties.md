@@ -34,7 +34,7 @@ const c = Object.assign(new Counter(), {});
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# properties are first-class (`get/set/init`). TS uses `get/set` accessors or plain fields.

@@ -4,7 +4,7 @@ description: "17. Strings, regex & dates — in depth: side-by-side C# and TypeS
 order: 17
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 17. Strings, regex & dates — in depth
 
@@ -39,7 +39,7 @@ const dt = new Date("2024-01-02"); // beware TZ parsing!
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# `$""` ≈ TS backticks. C# verbatim `@""` ≈ `String.raw`.

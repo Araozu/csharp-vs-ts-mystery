@@ -50,7 +50,7 @@ const copy = [...nums];
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# indexers throw on missing keys; TS `Map.get` returns `undefined`. Handle it.

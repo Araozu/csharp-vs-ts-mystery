@@ -34,7 +34,7 @@ type Result<T> = { ok: true; value: T } | { ok: false; error: string };
 ```
 
 
-```mystery
+```nara
 
 ```
 ### Custom errors
@@ -55,7 +55,7 @@ throw new NotFoundError("1");
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# catches by type + `when` guards. TS has one catch — discriminate with `instanceof`.

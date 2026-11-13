@@ -32,7 +32,7 @@ console.log(a.speak()); // woof
 ```
 
 
-```mystery
+```nara
 
 ```
 - `abstract → abstract`, `virtual → plain`, `override → override`, `sealed →` no keyword (don’t extend / lint rule).

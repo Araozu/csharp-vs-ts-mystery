@@ -4,7 +4,7 @@ description: "29. Equality & reference vs value: side-by-side C# and TypeScript 
 order: 29
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 29. Equality & reference vs value
 
@@ -34,7 +34,7 @@ const sameObj = p1 === p2; // false! (reference)
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# `==` can be overloaded per type. JS/TS `===` is never overloaded: primitives by value, objects by reference.
@@ -56,6 +56,6 @@ const view = buf.subarray(0, 2); // no copy (like Span)
 ```
 
 
-```mystery
+```nara
 
 ```

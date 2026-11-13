@@ -35,7 +35,7 @@ function isInt(v: unknown, tag: string): boolean { return tag === "int"; }
 ```
 
 
-```mystery
+```nara
 
 ```
 ### Constraints + defaults + helpers
@@ -55,7 +55,7 @@ type Partial<T>, Pick<T, K>, Omit<T, K>, ReturnType<F>, Awaited<T>
 ```
 
 
-```mystery
+```nara
 
 ```
 - `where T : class, new()` ≈ `<T extends object>` + constructor param.

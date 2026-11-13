@@ -37,7 +37,7 @@ let d = typeof x === "string" ? x : "fallback"; // safe
 ```
 
 
-```mystery
+```nara
 
 ```
 - `object` ≈ `object`, `dynamic` ≈ `any`, but TS `unknown` (safe any) has no direct C# equivalent — prefer it over `any`.

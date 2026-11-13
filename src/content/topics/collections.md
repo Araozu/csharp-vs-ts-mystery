@@ -4,7 +4,7 @@ description: "15. Arrays & collections: side-by-side C# and TypeScript examples.
 order: 15
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 15. Arrays & collections
 
@@ -55,7 +55,7 @@ const copy = [...nums];
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# indexers throw on missing keys; TS `Map.get` returns `undefined`. Handle it.

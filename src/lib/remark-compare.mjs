@@ -3,30 +3,30 @@
 //
 // Authoring rules:
 // - A ```csharp fence goes in the C# column, a ```ts fence in the TypeScript column,
-//   a ```mystery fence in the Mystery column. Consecutive fences form one comparison.
+//   a ```nara fence in the nara column. Consecutive fences form one comparison.
 // - Any other block (list, paragraph, table) ends the comparison, unless it is
-//   preceded by a marker: <!-- col:csharp -->, <!-- col:ts --> or <!-- col:mystery -->.
+//   preceded by a marker: <!-- col:csharp -->, <!-- col:ts --> or <!-- col:nara -->.
 // - Optional label: ```csharp label="..." or <!-- col:ts label="..." -->.
 // - Two comparisons that touch need <!-- --> between them.
-// - The mystery column comes from the MDs too (currently an empty ```mystery block,
+// - The nara column comes from the MDs too (currently an empty ```nara block,
 //   ready to be filled).
 
-const COLUMNS = new Set(["csharp", "ts", "mystery"]);
+const COLUMNS = new Set(["csharp", "ts", "nara"]);
 const MARKER = /^<!--\s*col:(\w+)(?:\s+label="([^"]*)")?\s*-->$/;
 const COMMENT = /^<!--[\s\S]*-->$/;
 
-const NAMES = { csharp: "C#", ts: "TypeScript", mystery: "Mystery (yours)" };
+const NAMES = { csharp: "C#", ts: "TypeScript", nara: "nara (yours)" };
 
 const GROUP = "my-12 grid gap-y-10 md:grid-cols-3 md:gap-y-0";
 const COLUMN = {
   csharp: "md:pr-8",
   ts: "border-t border-rule pt-8 md:border-t-0 md:pt-0 md:border-l md:px-8",
-  mystery: "border-t border-rule pt-8 md:border-t-0 md:pt-0 md:border-l md:pl-8",
+  nara: "border-t border-rule pt-8 md:border-t-0 md:pt-0 md:border-l md:pl-8",
 };
 const LABEL = {
   csharp: "text-csharp",
   ts: "text-ts",
-  mystery: "text-mystery",
+  nara: "text-nara",
 };
 
 const box = (classes, children = [], attrs = {}) => ({
@@ -37,7 +37,7 @@ const box = (classes, children = [], attrs = {}) => ({
 
 const labelFrom = (meta) => meta?.match(/label="([^"]*)"/)?.[1];
 
-const newGroup = () => ({ columns: { csharp: [], ts: [], mystery: [] }, labels: {} });
+const newGroup = () => ({ columns: { csharp: [], ts: [], nara: [] }, labels: {} });
 
 function column(lang, group) {
   const label = box(
@@ -49,7 +49,7 @@ function column(lang, group) {
 }
 
 function toGroupNode(group) {
-  return box(GROUP, [column("csharp", group), column("ts", group), column("mystery", group)], {
+  return box(GROUP, [column("csharp", group), column("ts", group), column("nara", group)], {
     "data-compare": "",
   });
 }
@@ -90,6 +90,9 @@ function groupChildren(children) {
 
     if (lang) {
       group ??= newGroup();
+      // "nara" is a placeholder column, not a real Shiki language.
+      // Map it to plaintext so highlighting doesn't warn/fallback.
+      if (child.type === "code" && child.lang === "nara") child.lang = "plaintext";
       group.columns[lang].push(child);
       if (label && !group.labels[lang]) group.labels[lang] = label;
     } else {

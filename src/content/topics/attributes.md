@@ -4,7 +4,7 @@ description: "28. Attributes, decorators, reflection: side-by-side C# and TypeSc
 order: 28
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 28. Attributes, decorators, reflection
 
@@ -45,7 +45,7 @@ export class UsersController { }
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# attributes + reflection are runtime-first (ASP.NET, serializers). TS decorators are syntax sugar — runtime types need explicit libraries.

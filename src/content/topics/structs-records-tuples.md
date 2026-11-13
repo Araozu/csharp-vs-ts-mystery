@@ -4,7 +4,7 @@ description: "13. Structs, records, tuples: side-by-side C# and TypeScript examp
 order: 13
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 13. Structs, records, tuples
 
@@ -39,7 +39,7 @@ type Rec = Record<string, Person>; // dict with fixed value type
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# `struct` = value type (copied). TS objects are always references — copy explicitly with spread.
@@ -60,6 +60,6 @@ type DeepFrozen<T> = { readonly [K in keyof T]: DeepFrozen<T[K]> };
 ```
 
 
-```mystery
+```nara
 
 ```

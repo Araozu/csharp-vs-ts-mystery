@@ -4,7 +4,7 @@ description: "11. Properties vs accessors: side-by-side C# and TypeScript exampl
 order: 11
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 11. Properties vs accessors
 
@@ -39,7 +39,7 @@ const c = Object.assign(new Counter(), {});
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# properties are first-class (`get/set/init`). TS uses `get/set` accessors or plain fields.

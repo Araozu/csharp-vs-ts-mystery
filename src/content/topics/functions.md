@@ -4,7 +4,7 @@ description: "7. Functions: side-by-side C# and TypeScript examples."
 order: 7
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 7. Functions
 
@@ -43,7 +43,7 @@ const scale = (x: number): number => x * factor;
 ```
 
 
-```mystery
+```nara
 
 ```
 ### 7b. Defaults, named args, params
@@ -74,7 +74,7 @@ sum(1, 2, 3); sum(...[1, 2]);
 ```
 
 
-```mystery
+```nara
 
 ```
 - Arrow `=>` exists in both. C# lambdas need a delegate type (`Func/Action`); TS function types are structural.

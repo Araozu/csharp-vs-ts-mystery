@@ -34,7 +34,7 @@ type Rec = Record<string, Person>; // dict with fixed value type
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# `struct` = value type (copied). TS objects are always references — copy explicitly with spread.
@@ -55,6 +55,6 @@ type DeepFrozen<T> = { readonly [K in keyof T]: DeepFrozen<T[K]> };
 ```
 
 
-```mystery
+```nara
 
 ```

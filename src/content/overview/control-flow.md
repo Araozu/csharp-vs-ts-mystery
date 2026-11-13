@@ -45,7 +45,7 @@ while (more) { /* ... */ }
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# `foreach` = TS `for...of`. TS `for...in` iterates keys — almost never what you want for arrays.

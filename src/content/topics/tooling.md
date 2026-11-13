@@ -4,7 +4,7 @@ description: "30. Tooling & ecosystem: side-by-side C# and TypeScript examples."
 order: 30
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 30. Tooling & ecosystem
 
@@ -40,7 +40,7 @@ const back = JSON.stringify(user);
 ```
 
 
-```mystery
+```nara
 
 ```
 ### HTTP APIs
@@ -62,7 +62,7 @@ export default app;
 ```
 
 
-```mystery
+```nara
 
 ```
 ### File I/O + DI + testing
@@ -91,7 +91,7 @@ test("creates", () => { expect(1).toBe(1); });
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# serialization is typed end-to-end. TS `JSON.parse` is `any` — validate at the boundary.

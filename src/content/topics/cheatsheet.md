@@ -4,7 +4,7 @@ description: "31. Mental-model cheat sheet: side-by-side C# and TypeScript examp
 order: 31
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 31. Mental-model cheat sheet
 

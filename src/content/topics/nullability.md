@@ -4,7 +4,7 @@ description: "5. Nullability & optionality: side-by-side C# and TypeScript examp
 order: 5
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 5. Nullability & optionality
 
@@ -44,7 +44,7 @@ let has = count != null;
 ```
 
 
-```mystery
+```nara
 
 ```
 ### 5a. Optional members + null-forgiving
@@ -75,7 +75,7 @@ let el = arr?.[0];
 ```
 
 
-```mystery
+```nara
 
 ```
 - `string?` (C#) ≈ `string | null` (TS). TS object properties/params usually need `| undefined` too (`nick?: string`).

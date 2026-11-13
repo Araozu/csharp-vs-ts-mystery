@@ -37,7 +37,7 @@ u.rename("Grace");
 ```
 
 
-```mystery
+```nara
 
 ```
 - TS `private` is compile-time only. Use `#id` private fields for runtime privacy.
@@ -67,6 +67,6 @@ export class Counter {
 ```
 
 
-```mystery
+```nara
 
 ```

@@ -4,7 +4,7 @@ description: "23. Access modifiers: side-by-side C# and TypeScript examples."
 order: 23
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 23. Access modifiers
 
@@ -39,6 +39,6 @@ export { /* only what callers need */ };
 ```
 
 
-```mystery
+```nara
 
 ```

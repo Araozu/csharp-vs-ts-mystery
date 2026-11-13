@@ -4,7 +4,7 @@ description: "27. Immutability & readonly — in depth: side-by-side C# and Type
 order: 27
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 27. Immutability & readonly — in depth
 
@@ -32,7 +32,7 @@ type DeepRO<T> = { readonly [K in keyof T]: DeepRO<T[K]> };
 ```
 
 
-```mystery
+```nara
 
 ```
 - Both favor copy-on-write: C# `with`, TS object/array spread.

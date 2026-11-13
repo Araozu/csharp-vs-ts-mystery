@@ -34,7 +34,7 @@ const dt = new Date("2024-01-02"); // beware TZ parsing!
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# `$""` ≈ TS backticks. C# verbatim `@""` ≈ `String.raw`.

@@ -29,7 +29,7 @@ const sameObj = p1 === p2; // false! (reference)
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# `==` can be overloaded per type. JS/TS `===` is never overloaded: primitives by value, objects by reference.
@@ -51,6 +51,6 @@ const view = buf.subarray(0, 2); // no copy (like Span)
 ```
 
 
-```mystery
+```nara
 
 ```

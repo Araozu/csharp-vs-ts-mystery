@@ -30,7 +30,7 @@ const p2 = PERMS.Read | PERMS.Write; // number flag math
 ```
 
 
-```mystery
+```nara
 
 ```
 - Prefer TS string-union literals over `enum` — they erase cleanly, autocomplete, and narrow in switches.

@@ -36,7 +36,7 @@ type Keys = keyof Person; // "name" | "age"
 ```
 
 
-```mystery
+```nara
 
 ```
 - Biggest modeling gap. In TS reach for unions of literals; in C# reach for `abstract record` hierarchies.

@@ -4,7 +4,7 @@ description: "6. Inference, any / object / unknown, casting: side-by-side C# and
 order: 6
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 6. Inference, any / object / unknown, casting
 
@@ -42,7 +42,7 @@ let d = typeof x === "string" ? x : "fallback"; // safe
 ```
 
 
-```mystery
+```nara
 
 ```
 - `object` ≈ `object`, `dynamic` ≈ `any`, but TS `unknown` (safe any) has no direct C# equivalent — prefer it over `any`.

@@ -38,7 +38,7 @@ const scale = (x: number): number => x * factor;
 ```
 
 
-```mystery
+```nara
 
 ```
 ### 7b. Defaults, named args, params
@@ -69,7 +69,7 @@ sum(1, 2, 3); sum(...[1, 2]);
 ```
 
 
-```mystery
+```nara
 
 ```
 - Arrow `=>` exists in both. C# lambdas need a delegate type (`Func/Action`); TS function types are structural.

@@ -4,7 +4,7 @@ description: "22. Namespaces & modules: side-by-side C# and TypeScript examples.
 order: 22
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 22. Namespaces & modules
 
@@ -38,7 +38,7 @@ class Helper {}
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# organizes by namespace + assembly. TS organizes by file + explicit `import/export`.

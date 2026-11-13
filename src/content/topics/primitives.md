@@ -4,7 +4,7 @@ description: "4. Primitive / built-in types: side-by-side C# and TypeScript exam
 order: 4
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 4. Primitive / built-in types
 
@@ -44,7 +44,7 @@ let ttlMs = 5 * 60 * 1000; // durations are just numbers
 ```
 
 
-```mystery
+```nara
 
 ```
 - If C# uses `decimal` for money, don’t port to TS `number` naively — use integers-of-cents or a decimal library.

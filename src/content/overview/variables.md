@@ -32,7 +32,7 @@ tags.push("b"); // allowed! array contents mutable
 ```
 
 
-```mystery
+```nara
 
 ```
 - `var` (C#) = type-inferred but fixed. `let`/`const` (TS) = same, plus binding mutability.
@@ -65,6 +65,6 @@ if (true) {
 ```
 
 
-```mystery
+```nara
 
 ```

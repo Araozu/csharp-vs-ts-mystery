@@ -35,7 +35,7 @@ const [a, b] = await Promise.all([fetchText(u1, signal), fetchText(u2, signal)])
 ```
 
 
-```mystery
+```nara
 
 ```
 | C# | TS |
@@ -69,7 +69,7 @@ await fetchText(url, ctrl.signal); // throws AbortError
 ```
 
 
-```mystery
+```nara
 
 ```
 ### Async streams
@@ -91,7 +91,7 @@ async function* stream(): AsyncGenerator<number> {
 ```
 
 
-```mystery
+```nara
 
 ```
 - Both use `async/await`, but C# continuations run on the thread pool; TS runs on the event-loop microtask queue.

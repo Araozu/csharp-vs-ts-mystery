@@ -33,7 +33,7 @@ const b: UserB = a; // OK — structure matches
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# asks *“what did you declare?”* TS asks *“what shape do you have?”*

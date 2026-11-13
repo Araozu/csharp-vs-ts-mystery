@@ -4,7 +4,7 @@ description: "16. LINQ vs array methods: side-by-side C# and TypeScript examples
 order: 16
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 16. LINQ vs array methods
 
@@ -40,7 +40,7 @@ const dictMap = new Map(users.map((u) => [u.id, u] as const));
 ```
 
 
-```mystery
+```nara
 
 ```
 | C# LINQ | TS equivalent |
@@ -75,7 +75,7 @@ function* lazyFilter<T>(xs: Iterable<T>, f: (t: T) => boolean): Generator<T> {
 ```
 
 
-```mystery
+```nara
 
 ```
 - TS `sort` mutates; use `toSorted/toReversed/toSpliced` for LINQ-like non-mutating behavior.

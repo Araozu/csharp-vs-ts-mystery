@@ -4,7 +4,7 @@ description: "24. Delegates, lambdas, events: side-by-side C# and TypeScript exa
 order: 24
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 24. Delegates, lambdas, events
 
@@ -36,7 +36,7 @@ target.addEventListener("click", (e) => console.log(e));
 ```
 
 
-```mystery
+```nara
 
 ```
 - `Func<A,R>` ≈ `(a: A) => R`, `Action<T>` ≈ `(t: T) => void`.

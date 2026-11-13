@@ -4,7 +4,7 @@ description: "9. Interfaces & type aliases: side-by-side C# and TypeScript examp
 order: 9
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 9. Interfaces & type aliases
 
@@ -39,7 +39,7 @@ class DbUser implements User {
 ```
 
 
-```mystery
+```nara
 
 ```
 - TS interfaces are structural + erasable. C# interfaces are nominal + enforced at runtime.

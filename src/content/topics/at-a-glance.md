@@ -4,7 +4,7 @@ description: "1. At a glance: side-by-side C# and TypeScript examples."
 order: 1
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 1. At a glance
 
@@ -38,8 +38,14 @@ const b: UserB = a; // OK — structure matches
 ```
 
 
-```mystery
-gaa
+```nara
+type UserA = struct {
+    name: string,
+}
+
+type UserB = struct {
+    name: string,
+}
 ```
 
 - C# asks *“what did you declare?”* TS asks *“what shape do you have?”*

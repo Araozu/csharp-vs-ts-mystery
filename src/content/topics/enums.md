@@ -4,7 +4,7 @@ description: "12. Enums: side-by-side C# and TypeScript examples."
 order: 12
 ---
 
-**How to read:** left is C#, middle is TypeScript, right is blank Mystery (yours). Narrow screens stack.
+**How to read:** left is C#, middle is TypeScript, right is blank nara (yours). Narrow screens stack.
 
 ## 12. Enums
 
@@ -35,7 +35,7 @@ const p2 = PERMS.Read | PERMS.Write; // number flag math
 ```
 
 
-```mystery
+```nara
 
 ```
 - Prefer TS string-union literals over `enum` — they erase cleanly, autocomplete, and narrow in switches.

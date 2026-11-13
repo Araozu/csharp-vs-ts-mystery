@@ -50,7 +50,7 @@ const frozen = ["a"] as const; // readonly ["a"]
 ```
 
 
-```mystery
+```nara
 
 ```
 - C# `var` = inferred but fixed type. TS `let`/`const` = same, plus binding mutability.
@@ -83,7 +83,7 @@ function f(v = "hi") { /* v: string */ }
 ```
 
 
-```mystery
+```nara
 
 ```
 - Always annotate when initializing with `null`: C# `string? x = null`, TS `let x: string | null = null`.
@@ -120,7 +120,7 @@ console.log(a); // 1
 ```
 
 
-```mystery
+```nara
 
 ```
 ## 4. The closure-in-a-loop trap
@@ -149,7 +149,7 @@ bad.forEach((f) => f()); // 3 3 3 — classic bug
 ```
 
 
-```mystery
+```nara
 
 ```
 - Rule: always use `let/const` in TS loops, fresh locals in C# `for` when capturing into lambdas/tasks.
@@ -179,6 +179,6 @@ console.log(s); // OK with strict (control-flow proves it)
 ```
 
 
-```mystery
+```nara
 
 ```
